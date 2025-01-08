@@ -5,26 +5,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import appColors from "@/assets/colors";
 import { Image } from "react-native";
 import { tabImages } from "@/assets/images";
-import { useNavigation } from "expo-router";
 
 const Tab = createBottomTabNavigator();
 
 export default function MainScreen() : React.JSX.Element {
-    const navigation = useNavigation();
     return (
         <Tab.Navigator
-            safeAreaInsets={{bottom:0}}
             screenOptions={({route}) => ({
                 tabBarInactiveTintColor: appColors.lightGray,
                 tabBarActiveTintColor: appColors.white,
-                tabBarActiveBackgroundColor: appColors.darkGray,
-                tabBarInactiveBackgroundColor: appColors.darkGray,
                 tabBarShowLabel: false,
                 tabBarIconStyle: {
                     marginTop:5
                 },
                 tabBarStyle: {
-                    height: 83,
+                    backgroundColor:appColors.darkGray
                 },
                 tabBarIcon: ({focused, color, size}) => {
                     return <Image 
@@ -33,7 +28,7 @@ export default function MainScreen() : React.JSX.Element {
                         tintColor={color}/>
                 }
             })}>
-            <Tab.Screen name="tab_shield" component={() => WodsScreen(navigation)} options={{
+            <Tab.Screen name="tab_shield" component={WodsScreen} options={{
                 headerShown: false
             }}/>
             <Tab.Screen name="tab_profile" component={ProfileScreen}/>

@@ -1,17 +1,20 @@
 import appColors from "@/assets/colors";
 import { Wod } from "@/models/Wod";
-import { NavigationProp } from "@react-navigation/native";
 import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
+import { dateFormatOptions } from "@/utils/DateFormatOptions";
 
 export default function wodListItem(
     wod: Wod,
-    navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>
+    navigation: WodsNavigationProp
 ) {
     const onWodSelected = () => {
-        console.log(`Wod: ${wod.name} selected`);
-        console.log(`Can go back: ${navigation.canGoBack()}`)
+        navigation.navigate("WodDetailsScreen", {
+            wod: wod,
+            title: wod.name
+        })
     }
-    
+
     return (
         <TouchableHighlight
             onPress={onWodSelected}
@@ -22,7 +25,7 @@ export default function wodListItem(
                 <View style={styles.infoContainer}>
                     <Text style={styles.title}>{wod.name}</Text>
                     <Text style={styles.wodDate}>
-                        {wod.wodDate.toLocaleDateString(undefined, dateFormatOptions)}
+                        {wod.wodDate.toLocaleDateString("uk-UA", dateFormatOptions)}
                     </Text>
                 </View>
             </View>
@@ -65,8 +68,3 @@ const styles = StyleSheet.create({
         fontWeight: "500"
     }
 })
-
-const dateFormatOptions: Intl.DateTimeFormatOptions = {
-    month: 'long',
-    day: 'numeric'
-};
