@@ -4,10 +4,11 @@ import { TYPES } from "@/ioc/TypesRegistrations";
 import { Wod } from "@/models/Wod";
 import { IWodService } from "@/services/Wods/IWodService";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, RefreshControl } from "react-native";
+import { FlatList, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import wodListItem from "../components/WodItem";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
+import { Separator } from "../components/Separator";
 
 export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp}) {
     const wodsService = iocContainer.get<IWodService>(TYPES.WodService);
@@ -30,10 +31,15 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
     }, [])
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView
+            style={{
+                backgroundColor: appColors.primary,
+                flex: 1,
+            }}>
             <FlatList
                 data={wods}
                 renderItem={({item}) => wodListItem(item, navigation)}
+                ItemSeparatorComponent={() => <Separator />}
                 refreshControl={<RefreshControl
                     refreshing={isRefresing}
                     onRefresh={onRefresh}
@@ -42,11 +48,3 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: appColors.primary,
-        flex: 1,
-        paddingHorizontal: 10
-    }
-})

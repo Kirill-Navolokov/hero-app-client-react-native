@@ -12,14 +12,16 @@ export default function MainScreen() : React.JSX.Element {
     return (
         <Tab.Navigator
             screenOptions={({route}) => ({
-                tabBarInactiveTintColor: appColors.lightGray,
+                tabBarInactiveTintColor: appColors.secondary,
                 tabBarActiveTintColor: appColors.white,
                 tabBarShowLabel: false,
                 tabBarIconStyle: {
                     marginTop:5
                 },
                 tabBarStyle: {
-                    backgroundColor:appColors.darkGray
+                    backgroundColor:appColors.primary,
+                    borderColor: appColors.secondary,
+                    borderTopWidth: 1
                 },
                 tabBarIcon: ({focused, color, size}) => {
                     return <Image 
