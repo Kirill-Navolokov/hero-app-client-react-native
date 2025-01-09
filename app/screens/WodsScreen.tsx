@@ -3,24 +3,20 @@ import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
 import { Wod } from "@/models/Wod";
 import { IWodService } from "@/services/Wods/IWodService";
-import { useEffect, useState } from "react";
-import { StyleSheet, FlatList, RefreshControl, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import wodListItem from "../components/WodItem";
-import { NavigationProp } from "@react-navigation/native";
+import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
+import { Separator } from "../components/Separator";
 
-export default function WodsScreen(
-    navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>
-) : React.JSX.Element {
+export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp}) {
     const wodsService = iocContainer.get<IWodService>(TYPES.WodService);
     const [wods, setWods] = useState(Array<Wod>);
     const [isRefresing, setRefreshing] = useState(false);
     const fetchWods = () => {
         wodsService.getWods()
-        .then(wods => {
-            console.log(wods);
-            setWods(wods);
-        });
+            .then(wods => setWods(wods));
     }
 
     const onRefresh = () => {
@@ -30,15 +26,20 @@ export default function WodsScreen(
     };
 
     useEffect(() => {
+        console.log('useEffect called')
         fetchWods();
     }, [])
 
     return (
         <SafeAreaView
-            style={styles.container}>
+            style={{
+                backgroundColor: appColors.primary,
+                flex: 1,
+            }}>
             <FlatList
                 data={wods}
                 renderItem={({item}) => wodListItem(item, navigation)}
+                ItemSeparatorComponent={() => <Separator />}
                 refreshControl={<RefreshControl
                     refreshing={isRefresing}
                     onRefresh={onRefresh}
@@ -47,11 +48,3 @@ export default function WodsScreen(
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: appColors.primary,
-        flex: 1,
-        paddingHorizontal: 10
-    }
-})
