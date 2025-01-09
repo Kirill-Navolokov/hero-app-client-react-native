@@ -51,8 +51,8 @@ export default function WodDetailsScreen(
             }}
             style={styles.container}>
             <View style={styles.header}>
-                <Image 
-                    source={{uri: "https://scontent-waw2-2.xx.fbcdn.net/v/t39.30808-6/411746262_677692874542136_6277054686580970176_n.png?stp=dst-png_p720x720&_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=aju6D2sRzUMQ7kNvgH2DD-i&_nc_zt=23&_nc_ht=scontent-waw2-2.xx&_nc_gid=AUAd7P7zJDszHwVTdqLO6KN&oh=00_AYAzDI5YC-P811NEKbivHtru52z5cuI0UPn9zPrj1K7y8w&oe=67849B8E"}}
+                <Image
+                    source={{uri: wod.converImageUrl}}
                     style={styles.backgourdImage} />
                 <View>
                     <Image source={{uri: wod.imageUrl}} style={styles.image} />

@@ -4,6 +4,7 @@ export interface Wod {
     id: string;
     name: string;
     imageUrl: string;
+    converImageUrl: string;
     honorship: WodHonorship;
     description: string;
     scheme: string;

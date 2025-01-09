@@ -30,12 +30,13 @@ export class WodService implements IWodService {
     }
 
     private mapWod(wodDto: WodDto): Wod {
-        const { id, name, imageUrl, honorship, description, scheme, wodDate } = wodDto;
+        const { id, name, imageUrl, coverImageUrl, honorship, description, scheme, wodDate } = wodDto;
 
         return {
             id: id,
             name: name,
             imageUrl: imageUrl,
+            converImageUrl: coverImageUrl,
             honorship: this.wodHonorshipMappings[honorship],
             description: description,
             scheme: scheme,
