@@ -6,6 +6,7 @@ import { GestureResponderEvent, Image, NativeSyntheticEvent, ScrollView, StyleSh
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Separator } from "../components/Separator";
 import { labelStyles } from "@/assets/styles";
+import { strings } from "@/assets/strings";
 
 const EXPANDABLE_TEXT_MAX_LINES = 4;
 
@@ -62,13 +63,13 @@ export default function WodDetailsScreen(
                         marginLeft: "33%"}}>
                         <Text style={labelStyles.title}>{wod.name}</Text>
                         <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
-                            {wod.wodDate.toLocaleDateString("uk-UA", dateFormatOptions)}
+                            {wod.wodDate.toLocaleDateString(strings.locale, dateFormatOptions)}
                         </Text>
                     </View>
                 </View>
             </View>
             <Separator/>
-            <Text style={[labelStyles.regular, {margin: 10}]}>Схема:{"\n"}{wod.scheme}</Text>
+            <Text style={[labelStyles.regular, {margin: 10}]}>{strings.scheme}:{"\n"}{wod.scheme}</Text>
             <Separator/>
             <Text
                 numberOfLines={numOfLines}
@@ -85,7 +86,7 @@ export default function WodDetailsScreen(
                             color: appColors.blue,
                             marginLeft: 10,
                             marginTop: -9
-                        }]}>{isExpanded != true ? "Більше" : "Менше"}</Text>
+                        }]}>{isExpanded != true ? strings.more : strings.less}</Text>
                 </TouchableHighlight>
             }
             <Text style={styles.footer}>Потій або помри &copy;OTOY</Text>
