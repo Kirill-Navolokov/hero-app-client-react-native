@@ -2,17 +2,18 @@ import React from "react";
 import { StyleProp, StyleSheet, Text, TouchableHighlight, View, ViewStyle } from "react-native";
 import appColors from "@/assets/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { ProfileOptionParameter } from "@/navigation-types/ProfileOptionParameter";
 
 export function ProfileOption(
-    {name, style}:{name: string, style?: StyleProp<ViewStyle>}
+    {parameter, style}:{parameter: ProfileOptionParameter, style?: StyleProp<ViewStyle>}
 ) : React.JSX.Element {
     return (
         <TouchableHighlight
-            onPress={() => {}}
+            onPress={() => parameter.onSelected(parameter.type)}
             underlayColor={appColors.secondary}
             style={style}>
             <View style={styles.container}>
-                <Text style={[styles.optionName]}>{name}</Text>
+                <Text style={[styles.optionName]}>{parameter.name}</Text>
                 <Ionicons 
                     name="chevron-forward"
                     size={15}
@@ -22,6 +23,8 @@ export function ProfileOption(
         </TouchableHighlight>
     )
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
