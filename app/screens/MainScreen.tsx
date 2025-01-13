@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import appColors from "@/assets/colors";
 import { Image } from "react-native";
 import { tabImages } from "@/assets/images";
+import { strings } from "@/assets/strings";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,10 +31,26 @@ export default function MainScreen() : React.JSX.Element {
                         tintColor={color}/>
                 }
             })}>
-            <Tab.Screen name="tab_shield" component={WodsScreen} options={{
-                headerShown: false
-            }}/>
-            <Tab.Screen name="tab_profile" component={ProfileScreen}/>
+            <Tab.Screen 
+                name="tab_shield"
+                component={WodsScreen}
+                options={{
+                    headerShown: false
+                }}/>
+            <Tab.Screen 
+                name="tab_profile"
+                component={ProfileScreen}
+                options={{
+                    title: strings.profieTab,
+                    headerTitleStyle: {
+                        color: appColors.white,
+                        fontSize: 20,
+                        fontWeight: "bold"
+                    },
+                    headerStyle: {
+                        backgroundColor: appColors.primary
+                    }
+                }}/>
         </Tab.Navigator>
     );
 }

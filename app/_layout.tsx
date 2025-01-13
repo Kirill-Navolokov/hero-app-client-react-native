@@ -19,8 +19,8 @@ export default function App() {
                 component={WodDetailsScreen}
                 options={({navigation, route}:{navigation:WodDetailsNavigationProp, route: WodDetailsRouteProp}) => ({
                     title: null,
-                    headerTransparent:true,
-                    headerLeft:(props) => BlurredBackButton(navigation)
+                    headerTransparent: true,
+                    headerLeft: (props) => BlurredBackButton(navigation)
                 })}/>
         </RootStack.Navigator>
     );

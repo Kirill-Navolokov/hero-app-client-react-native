@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { labelStyles } from "@/assets/styles";
+import { strings } from "@/assets/strings";
 
 export default function wodListItem(
     wod: Wod,
@@ -26,7 +27,7 @@ export default function wodListItem(
                 <View style={styles.infoContainer}>
                     <Text style={labelStyles.title}>{wod.name}</Text>
                     <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
-                        {wod.wodDate.toLocaleDateString("uk-UA", dateFormatOptions)}
+                        {wod.wodDate.toLocaleDateString(strings.locale, dateFormatOptions)}
                     </Text>
                 </View>
             </View>
@@ -52,5 +53,5 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: "center",
         marginLeft: 10,
-    },
+    }
 })
