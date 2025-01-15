@@ -25,37 +25,31 @@ export default function ProfileScreen(
             style={{
                 backgroundColor: appColors.primary,
             }}>
-            <ProfileOption parameter={{
-                type: ProfileOpt.language,
-                name: strings.language,
-                onSelected: onOptionSelected
-            }} />
-            <ProfileOption parameter={{
-                type: ProfileOpt.feedback,
-                name: strings.leaveFeedback,
-                onSelected: onOptionSelected
-            }} />
-            <ProfileOption parameter={{
-                type: ProfileOpt.supportProject,
-                name: strings.supportProject,
-                onSelected: onOptionSelected
-            }} />
-            <ProfileOption parameter={{
-                type: ProfileOpt.faq,
-                name: strings.faq,
-                onSelected: onOptionSelected
-                }}
+            <ProfileOption
+                name={strings.language}
+                iconName="language"
+                onSelected={() => onOptionSelected(ProfileOpt.language)} />
+            <ProfileOption
+                name={strings.leaveFeedback}
+                iconName="feedback"
+                onSelected={() => onOptionSelected(ProfileOpt.feedback)} />
+            <ProfileOption
+                name={strings.supportProject}
+                iconName="support"
+                onSelected={() => onOptionSelected(ProfileOpt.supportProject)} />
+            <ProfileOption
+                name={strings.faq}
+                iconName="question-answer"
+                onSelected={() => onOptionSelected(ProfileOpt.faq)}
                 style={{marginTop: 20}} />
-            <ProfileOption parameter={{
-                type: ProfileOpt.termsConditions,
-                name: strings.termsConditions,
-                onSelected: onOptionSelected
-            }} />
-            <ProfileOption parameter={{
-                type: ProfileOpt.privacyPolicy,
-                name: strings.privacyPolicy,
-                onSelected: onOptionSelected
-            }} />
+            <ProfileOption
+                name={strings.termsConditions}
+                iconName="handshake"
+                onSelected={() => onOptionSelected(ProfileOpt.termsConditions)} />
+            <ProfileOption
+                name={strings.privacyPolicy}
+                iconName="privacy-tip"
+                onSelected={() => onOptionSelected(ProfileOpt.privacyPolicy)} />
         </ScrollView>
     )
 }

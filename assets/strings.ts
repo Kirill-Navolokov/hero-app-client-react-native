@@ -13,6 +13,6 @@ export const strings = {
     ukrainian: "Українська",
     kacapian: "російська",
     seriouslyQuestion: "Серйозно?",
-    shouldWeAllowToCAcceptChoice: "Хіба схоже, що ми дозволимо це зробити?",
+    shouldWeAllowToCAcceptChoice: "Хіба схоже, що тут буде російська?",
     fixMistake: "Виправити помилку"
 }
