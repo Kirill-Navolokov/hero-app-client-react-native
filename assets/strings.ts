@@ -9,5 +9,10 @@ export const strings = {
     more: "Більше",
     less: "Менше",
     locale: "uk-UA",
-    profieTab: "Профіль"
+    profieTab: "Профіль",
+    ukrainian: "Українська",
+    kacapian: "російська",
+    seriouslyQuestion: "Серйозно?",
+    shouldWeAllowToCAcceptChoice: "Хіба схоже, що ми дозволимо це зробити?",
+    fixMistake: "Виправити помилку"
 }

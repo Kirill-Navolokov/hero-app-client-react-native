@@ -1,9 +1,10 @@
 import appColors from "@/assets/colors";
 import { labelStyles } from "@/assets/styles";
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { Separator } from "../components/Separator";
 import { Ionicons } from "@expo/vector-icons";
+import { strings } from "@/assets/strings";
 
 export default function ChooseLanguageScreen() : React.JSX.Element {
     return (
@@ -26,7 +27,7 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
                             color: appColors.white,
                             fontWeight: "bold"
                         }]}>
-                            Українська
+                            {strings.ukrainian}
                         </Text>
                 </View>
                 <Ionicons
@@ -37,14 +38,23 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
             </TouchableHighlight>
             <Separator/>
             <TouchableHighlight
-                onPress={() => {}}
+                onPress={() => {Alert.alert(
+                    strings.seriouslyQuestion,
+                    strings.shouldWeAllowToCAcceptChoice,
+                    [{
+                        text: strings.fixMistake,
+                        style: "cancel"
+                    }],
+                    { userInterfaceStyle: "dark" },
+                )}}
                 underlayColor={appColors.secondary}
                 style={styles.clickableView}>
                 <View style={styles.optionContainer}>
-                    <Image
-                        tintColor={appColors.lightGray} 
-                        source={require("../../assets/images/vomit.png")}/>
-                    <Text style={labelStyles.regular}>російська</Text>
+                    <Ionicons
+                        name="thumbs-down-outline"
+                        size={24}
+                        color={appColors.white}/>
+                    <Text style={labelStyles.regular}>{strings.kacapian}</Text>
                 </View>
             </TouchableHighlight>
             <Separator/>
@@ -66,5 +76,4 @@ const styles = StyleSheet.create({
         columnGap: 15,
         alignItems:"center"
     }
-
 })
