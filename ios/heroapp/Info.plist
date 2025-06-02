@@ -24,20 +24,23 @@
     <string>????</string>
     <key>CFBundleURLTypes</key>
     <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>myapp</string>
-          <string>com.anonymous.hero-app</string>
-        </array>
-      </dict>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>exp+hero-app</string>
-        </array>
-      </dict>
-    </array>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>com.anonymous.herobook</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>com.googleusercontent.apps.617406272995-1bu9q0osjm2269om1kbk3l96fm9u9mh6</string>
+      </array>
+    </dict>
+  </array>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>LSMinimumSystemVersion</key>
