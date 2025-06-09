@@ -20,7 +20,7 @@ export default function wodListItem(
     return (
         <TouchableHighlight
             onPress={onWodSelected}
-            underlayColor={appColors.secondary}
+            underlayColor={appColors.cardBackground}
             style={styles.clickableView}>
                 <View style={styles.container}>
                 <Image source={{uri: wod.imageUrl}} style={styles.image}/>

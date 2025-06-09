@@ -5,6 +5,7 @@ export const strings = {
     faq: "FAQ",
     termsConditions: "Умови використання",
     privacyPolicy: "Політика конфіденційності",
+    signout: "Вийти",
     scheme: "Схема",
     more: "Більше",
     less: "Менше",

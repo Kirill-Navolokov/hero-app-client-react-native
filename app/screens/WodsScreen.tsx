@@ -38,7 +38,7 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
                 paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom
             }}
-            style={{backgroundColor: appColors.primary}}
+            style={{backgroundColor: appColors.backgroundPrimary}}
             data={wods}
             renderItem={({item}) => wodListItem(item, navigation)}
             ItemSeparatorComponent={() => <Separator />}

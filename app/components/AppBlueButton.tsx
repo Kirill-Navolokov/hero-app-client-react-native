@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         paddingVertical: 14
     },
     label: {
-        color: appColors.textLight,
+        color: appColors.textPrimary,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign:'center'

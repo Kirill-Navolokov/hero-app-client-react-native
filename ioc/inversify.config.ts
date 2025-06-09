@@ -5,9 +5,18 @@ import { WodService } from "@/services/Wods/WodService";
 import { IRestService } from "@/api/IRestService";
 import { RestService } from "@/api/RestService";
 import { Container } from "inversify";
+import { ISecureStorage } from '@/services/ISecureStorage';
+import { SecureStorage } from '@/services/SecureStorage';
+import { IAuthService } from '@/services/Auth/IAuthService';
+import { AuthService } from '@/services/Auth/AuthService';
+import { IPreferencesService } from '@/services/Preferences/IPreferencesService';
+import { PreferencesService } from '@/services/Preferences/PreferencesService';
 
 const iocContainer = new Container();
 iocContainer.bind<IWodService>(TYPES.WodService).to(WodService).inSingletonScope();
 iocContainer.bind<IRestService>(TYPES.RestService).to(RestService).inSingletonScope();
+iocContainer.bind<ISecureStorage>(TYPES.SecureStorage).to(SecureStorage).inSingletonScope();
+iocContainer.bind<IAuthService>(TYPES.AuthService).to(AuthService).inSingletonScope();
+iocContainer.bind<IPreferencesService>(TYPES.PreferencesService).to(PreferencesService).inSingletonScope();
 
 export { iocContainer };

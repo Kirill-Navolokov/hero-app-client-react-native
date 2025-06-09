@@ -12,7 +12,7 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
             style={styles.container}>
             <TouchableHighlight
                 onPress={() => {}}
-                underlayColor={appColors.secondary}
+                underlayColor={appColors.cardBackground}
                 style={styles.clickableView}>
                 <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                 <View style={styles.optionContainer}>
@@ -47,7 +47,7 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
                     }],
                     { userInterfaceStyle: "dark" },
                 )}}
-                underlayColor={appColors.secondary}
+                underlayColor={appColors.cardBackground}
                 style={styles.clickableView}>
                 <View style={styles.optionContainer}>
                     <Ionicons
@@ -64,7 +64,7 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: appColors.primary,
+        backgroundColor: appColors.backgroundPrimary,
         paddingTop: 20,
     },
     clickableView: {

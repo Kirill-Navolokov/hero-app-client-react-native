@@ -96,7 +96,7 @@ export default function WodDetailsScreen(
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: appColors.primary,
+        backgroundColor: appColors.backgroundPrimary,
     },
     header: {
         flex:1,
@@ -114,12 +114,12 @@ const styles = StyleSheet.create({
         width: "30%",
         aspectRatio:1,
         borderRadius: "100%",
-        borderColor: appColors.primary,
+        borderColor: appColors.backgroundPrimary,
         borderStyle: "solid",
         borderWidth: 4
     },
     footer: {
-        color: appColors.secondary,
+        color: appColors.cardBackground,
         alignSelf: "center",
         marginTop: 10,
         fontSize: 14,
