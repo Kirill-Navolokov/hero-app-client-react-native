@@ -4,5 +4,6 @@ export enum ProfileOpt {
     supportProject,
     faq,
     termsConditions,
-    privacyPolicy
+    privacyPolicy,
+    signout,
 }

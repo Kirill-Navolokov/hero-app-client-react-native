@@ -2,25 +2,29 @@ import { StyleSheet } from "react-native";
 import appColors from "./colors";
 
 export const labelStyles = StyleSheet.create({
+    header: {
+        color: appColors.textPrimary,
+        fontSize: 28,
+        fontWeight: "bold",
+    },
     title: {
-        color: appColors.white,
+        color: appColors.textPrimary,
         fontSize: 24,
         fontWeight: "bold",
     },
     subtitle: {
-        color: appColors.lightGray,
-        fontSize: 20,
-        fontWeight: "500",
-    },
-    regular: {
-        color: appColors.lightGray,
-        fontSize: 18,
-        fontWeight: "500",
+        color: appColors.textPrimary,
+        fontSize: 22,
+        fontWeight:"500",
     },
     body: {
-        color: appColors.lightGray,
-        fontSize: 16,
-        fontWeight:"500",
-        lineHeight: 20.5
+        color: appColors.textPrimary,
+        fontSize: 20,
+        lineHeight: 30
+    },
+    caption: {
+        color: appColors.textPrimary,
+        fontSize: 18,
+        lineHeight: 25
     }
 })

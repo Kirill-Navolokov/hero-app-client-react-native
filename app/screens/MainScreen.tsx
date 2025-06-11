@@ -13,15 +13,15 @@ export default function MainScreen() : React.JSX.Element {
     return (
         <Tab.Navigator
             screenOptions={({route}) => ({
-                tabBarInactiveTintColor: appColors.secondary,
+                tabBarInactiveTintColor: appColors.cardBackground,
                 tabBarActiveTintColor: appColors.white,
                 tabBarShowLabel: false,
                 tabBarIconStyle: {
                     marginTop:5
                 },
                 tabBarStyle: {
-                    backgroundColor:appColors.primary,
-                    borderColor: appColors.secondary,
+                    backgroundColor:appColors.backgroundPrimary,
+                    borderColor: appColors.cardBackground,
                     borderTopWidth: 1
                 },
                 tabBarIcon: ({focused, color, size}) => {
@@ -48,7 +48,7 @@ export default function MainScreen() : React.JSX.Element {
                         fontWeight: "bold"
                     },
                     headerStyle: {
-                        backgroundColor: appColors.primary
+                        backgroundColor: appColors.backgroundPrimary
                     }
                 }}/>
         </Tab.Navigator>

@@ -43,46 +43,43 @@ export default function WodDetailsScreen(
         setNumberOfLines(isExpanded ? EXPANDABLE_TEXT_MAX_LINES : undefined);
         setIsExpanded(!isExpanded);
     }
+    console.log(wod.executionDate);
 
     return (
         <ScrollView
             bounces={false}
             contentContainerStyle={{
+                paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom,
             }}
             style={styles.container}>
-            <View style={styles.header}>
+            <View style={[styles.header]}>
                 <Image
-                    source={{uri: wod.converImageUrl}}
+                    source={{uri: wod.imageUrl}}
                     style={styles.backgourdImage} />
-                <View>
-                    <Image source={{uri: wod.imageUrl}} style={styles.image} />
-                    <View style={{
-                        flex: 1,
-                        margin: 10,
-                        marginLeft: "33%"}}>
-                        <Text style={labelStyles.title}>{wod.name}</Text>
-                        <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
-                            {wod.wodDate.toLocaleDateString(strings.locale, dateFormatOptions)}
-                        </Text>
-                    </View>
+                <View style={{margin: 10}}>
+                    <Text style={labelStyles.title}>{wod.name}</Text>
+                    <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
+                        {wod.executionDate.toLocaleDateString(strings.locale, dateFormatOptions)}
+                    </Text>
                 </View>
             </View>
             <Separator/>
-            <Text style={[labelStyles.regular, {margin: 10}]}>{strings.scheme}:{"\n"}{wod.scheme}</Text>
+            <Text style={[labelStyles.body, {margin: 10}]}>{wod.scheme}</Text>
             <Separator/>
             <Text
                 numberOfLines={numOfLines}
                 onTextLayout={onDescriptionLoaded}
                 onPress={onDescriptionPressed}
-                style={[labelStyles.body, {margin: 10}]}>
+                style={[labelStyles.caption, {margin: 10}]}>
                     {wod.description}
             </Text>
             {isExpandable && 
                 <TouchableHighlight
+                    underlayColor={appColors.transparent}
                     onPress={onDescriptionPressed}>
                     <Text
-                        style={[labelStyles.body, {
+                        style={[labelStyles.caption, {
                             color: appColors.blue,
                             marginLeft: 10,
                             marginTop: -9
@@ -96,12 +93,11 @@ export default function WodDetailsScreen(
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: appColors.primary,
+        backgroundColor: appColors.backgroundPrimary,
     },
     header: {
         flex:1,
-        flexDirection: "column",
-        marginBottom: 10
+        flexDirection: "column"
     },
     backgourdImage: {
         width:"100%",
@@ -114,12 +110,12 @@ const styles = StyleSheet.create({
         width: "30%",
         aspectRatio:1,
         borderRadius: "100%",
-        borderColor: appColors.primary,
+        borderColor: appColors.backgroundPrimary,
         borderStyle: "solid",
         borderWidth: 4
     },
     footer: {
-        color: appColors.secondary,
+        color: appColors.textSecondary,
         alignSelf: "center",
         marginTop: 10,
         fontSize: 14,

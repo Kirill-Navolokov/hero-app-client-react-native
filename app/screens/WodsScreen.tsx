@@ -3,20 +3,27 @@ import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
 import { Wod } from "@/models/Wod";
 import { IWodService } from "@/services/Wods/IWodService";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import wodListItem from "../components/WodItem";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { Separator } from "../components/Separator";
+import { AuthContext } from "../_layout";
+import { AxiosError } from "axios";
 
 export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp}) {
     const wodsService = iocContainer.get<IWodService>(TYPES.WodService);
     const [wods, setWods] = useState(Array<Wod>);
     const [isRefresing, setRefreshing] = useState(false);
+    const {signOut} = useContext(AuthContext)!;
     const fetchWods = () => {
         wodsService.getWods()
-            .then(wods => setWods(wods));
+            .then(wods => setWods(wods))
+            .catch(error => {
+                if(error instanceof AxiosError && error.status == 401)
+                    signOut();
+            });
     }
 
     const onRefresh = () => {
@@ -26,7 +33,6 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
     };
 
     useEffect(() => {
-        console.log('useEffect called')
         fetchWods();
     }, [])
 
@@ -38,7 +44,7 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
                 paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom
             }}
-            style={{backgroundColor: appColors.primary}}
+            style={{backgroundColor: appColors.backgroundPrimary}}
             data={wods}
             renderItem={({item}) => wodListItem(item, navigation)}
             ItemSeparatorComponent={() => <Separator />}

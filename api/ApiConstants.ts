@@ -1,4 +1,5 @@
 export const api = {
-    baseUrl: "http://localhost:1234",
-    wods: "/wods"
+    baseUrl: "http://localhost:3000",
+    wods: "/wods",
+    login: "/login"
 }

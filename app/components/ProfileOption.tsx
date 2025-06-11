@@ -4,26 +4,26 @@ import appColors from "@/assets/colors";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export function ProfileOption(
-    {name, iconName, onSelected, style}:
-    {name: string, iconName: string, onSelected: () => void, style?: StyleProp<ViewStyle>}
+    {name, iconName, onSelected, viewStyle}:
+    {name: string, iconName: string, onSelected: () => void, viewStyle?: StyleProp<ViewStyle>}
 ) : React.JSX.Element {
     return (
         <TouchableHighlight
             onPress={onSelected}
-            underlayColor={appColors.secondary}
-            style={style}>
+            underlayColor={appColors.cardBackground}
+            style={viewStyle}>
             <View style={styles.container}>
                 <View style={{flexDirection:"row", columnGap: 10}}>
                     <MaterialIcons
                         name={iconName}
-                        color={appColors.white}
+                        color={appColors.textPrimary}
                         size={20} />
                     <Text style={[styles.optionName]}>{name}</Text>
                 </View>
                 <Ionicons 
                     name="chevron-forward"
                     size={15}
-                    color={appColors.darkGray}
+                    color={appColors.textPrimary}
                     style={{alignSelf:"center"}} />
             </View>
         </TouchableHighlight>

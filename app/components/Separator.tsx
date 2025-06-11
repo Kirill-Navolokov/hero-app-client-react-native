@@ -4,7 +4,7 @@ import { View } from "react-native";
 export function Separator() : React.JSX.Element {
     return (
         <View style={{
-            backgroundColor: appColors.secondary,
+            backgroundColor: appColors.cardBackground,
             height: 1
         }} />
     )
