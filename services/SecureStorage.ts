@@ -8,13 +8,16 @@ export class SecureStorage implements ISecureStorage {
         return AsyncStorage.clear();
     }
 
-    async getSecret(name: string): Promise<string> {
+    async getSecret(name: string): Promise<string | null> {
         var secret = await AsyncStorage.getItem(name);
-        return secret!;
+        return secret;
     }
 
-    async getObject<T>(name: string): Promise<T> {
+    async getObject<T>(name: string): Promise<T | null> {
         var stringItem = await AsyncStorage.getItem(name);
+        if(stringItem == null)
+            return null;
+
         return JSON.parse(stringItem!) as T;
     }
 

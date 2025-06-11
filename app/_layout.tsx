@@ -26,52 +26,43 @@ export default function App() {
                 case 'RESTORE_TOKEN':
                 return {
                     ...prevState,
-                    authToken: action.token,
+                    isLoggedIn: action.loggedIn,
                     isLoading: false,
                 };
                 case 'SIGN_IN':
                 return {
                     ...prevState,
                     isSignout: false,
-                    authToken: action.token,
+                    isLoggedIn: action.loggedIn,
                 };
                 case 'SIGN_OUT':
                 return {
                     ...prevState,
                     isSignout: true,
-                    authToken: null,
+                    isLoggedIn: false,
                 };
             }
         },
         {
             isLoading: true,
             isSignout: false,
-            authToken: null,
+            isLoggedIn: false,
         });
+    var authService = iocContainer.get<IAuthService>(TYPES.AuthService);
 
     useEffect(() => {
         // Fetch the token from storage then navigate to our appropriate place
         const bootstrapAsync = async () => {
-            let authToken;
-
-            try {
-                // Restore token stored in `SecureStore` or any other encrypted storage
-                var secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
-                authToken = await secureStorage.getSecret(secretsNames.authToken);
-            } catch (e) {
-                // Restoring token failed
-            }
-
+            var isTokensValid = await authService.verifyTokens();
             // After restoring token, we may need to validate it in production apps
-
             // This will switch to the App screen or Auth screen and this loading
             // screen will be unmounted and thrown away.
-            dispatch({ type: 'RESTORE_TOKEN', token: authToken });
+            dispatch({ type: 'RESTORE_TOKEN', loggedIn: isTokensValid });
         };
 
         bootstrapAsync();
     }, []);
-    var authService = iocContainer.get<IAuthService>(TYPES.AuthService);
+    
 
     const authContext = useMemo(
         () => ({
@@ -80,7 +71,7 @@ export default function App() {
                 var isSignedId = await authService.googleSignIn();
 
                 if(isSignedId)
-                    dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                    dispatch({ type: 'SIGN_IN', loggedIn: true });
             },
             signIn: async (email: string, password: string) => {
                 // In a production app, we need to send some data (usually username, password) to server and get a token
@@ -90,11 +81,12 @@ export default function App() {
 
                 console.log(email, password);
                 await authService.signIn(email, password);
-                dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                dispatch({ type: 'SIGN_IN', loggedIn: true });
             },
             signOut: async () => {
                 await authService.logout();
-                dispatch({ type: 'SIGN_OUT' });
+                console.log("logging out");
+                dispatch({ type: 'SIGN_OUT', loggedIn: false });
             },
             signUp: async (data:any) => {
                 // In a production app, we need to send user data to server and get a token
@@ -102,7 +94,7 @@ export default function App() {
                 // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
                 // In the example, we'll use a dummy token
 
-                dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                dispatch({ type: 'SIGN_IN', loggedIn: true });
             },
         }),
         []);
@@ -118,7 +110,7 @@ export default function App() {
                         name='Splash'
                         component={SplashScreen}
                         options={{headerShown: false}}/>)
-                    : (state.authToken != null ? MainScreens() : AuthScreens())}
+                    : (state.isLoggedIn ? MainScreens() : AuthScreens())}
             </RootStack.Navigator>
         </AuthContext.Provider>
     )

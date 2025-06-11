@@ -4,7 +4,7 @@ import appColors from "./colors";
 export const labelStyles = StyleSheet.create({
     header: {
         color: appColors.textPrimary,
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: "bold",
     },
     title: {
@@ -14,18 +14,17 @@ export const labelStyles = StyleSheet.create({
     },
     subtitle: {
         color: appColors.textPrimary,
-        fontSize: 20,
-        fontWeight: "500",
-    },
-    regular: {
-        color: appColors.textPrimary,
-        fontSize: 18,
-        fontWeight: "500",
+        fontSize: 22,
+        fontWeight:"500",
     },
     body: {
-        color: appColors.textSecondary,
-        fontSize: 16,
-        fontWeight:"500",
-        lineHeight: 20.5
+        color: appColors.textPrimary,
+        fontSize: 20,
+        lineHeight: 30
+    },
+    caption: {
+        color: appColors.textPrimary,
+        fontSize: 18,
+        lineHeight: 25
     }
 })

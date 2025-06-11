@@ -4,4 +4,6 @@ export interface IAuthService {
     googleSignIn(): Promise<boolean>;
 
     logout(): Promise<void>;
+
+    verifyTokens(): Promise<boolean>;
 }

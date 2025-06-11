@@ -2,11 +2,13 @@ import { WodHonorship } from "@/enums/WodHonoship";
 
 export interface Wod {
     id: string;
+    unitId?: string;
     name: string;
-    imageUrl: string;
-    converImageUrl: string;
-    honorship: WodHonorship;
     description: string;
     scheme: string;
-    wodDate: Date;
+    executionDate: Date;
+    creationDate: Date;
+    type: WodHonorship;
+    imageUrl: string;
+    backgroundUrl?: string;
 }

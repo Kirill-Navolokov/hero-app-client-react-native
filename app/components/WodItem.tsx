@@ -22,12 +22,12 @@ export default function wodListItem(
             onPress={onWodSelected}
             underlayColor={appColors.cardBackground}
             style={styles.clickableView}>
-                <View style={styles.container}>
+            <View style={styles.container}>
                 <Image source={{uri: wod.imageUrl}} style={styles.image}/>
                 <View style={styles.infoContainer}>
                     <Text style={labelStyles.title}>{wod.name}</Text>
                     <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
-                        {wod.wodDate.toLocaleDateString(strings.locale, dateFormatOptions)}
+                        {wod.executionDate.toLocaleDateString(strings.locale, dateFormatOptions)}
                     </Text>
                 </View>
             </View>

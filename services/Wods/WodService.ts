@@ -15,7 +15,8 @@ export class WodService implements IWodService {
     constructor() {
         this.wodHonorshipMappings = {
             0: WodHonorship.hero ,
-            1: WodHonorship.memorial
+            1: WodHonorship.memorial,
+            2: WodHonorship.unit
         }
     }
 
@@ -30,17 +31,30 @@ export class WodService implements IWodService {
     }
 
     private mapWod(wodDto: WodDto): Wod {
-        const { id, name, imageUrl, coverImageUrl, honorship, description, scheme, wodDate } = wodDto;
-
+        const { 
+            id,
+            unitId,
+            name,
+            description,
+            scheme,
+            executionDate,
+            creationDate,
+            type,
+            imageUrl,
+            backgroundUrl } = wodDto;
+        
+        console.log(typeof executionDate)
         return {
             id: id,
+            unitId: unitId,
             name: name,
-            imageUrl: imageUrl,
-            converImageUrl: coverImageUrl,
-            honorship: this.wodHonorshipMappings[honorship],
             description: description,
             scheme: scheme,
-            wodDate: new Date(wodDate)
+            executionDate: new Date(executionDate),
+            creationDate: new Date(creationDate),
+            type: this.wodHonorshipMappings[type],
+            imageUrl: imageUrl,
+            backgroundUrl: backgroundUrl,
         };
     }
 }

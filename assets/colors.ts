@@ -15,6 +15,7 @@ const appColors = {
     alertSuccess: "#28A745",
     textPrimary: "#F2F2F2",
     textSecondary: "#C9C9C9",
+    transparent: "#FFFFFF00"
 };
 
 export default appColors;

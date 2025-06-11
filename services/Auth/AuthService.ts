@@ -83,4 +83,17 @@ export class AuthService implements IAuthService {
     logout(): Promise<void> {
         return this.secureStorage.clear();
     }
+
+    async verifyTokens(): Promise<boolean> {
+        try {
+            var accessToken = await this.secureStorage.getSecret(secretsNames.authToken);
+            var refreshToken = await this.secureStorage.getSecret(secretsNames.refreshToken);
+
+            return accessToken != null && refreshToken != null;
+        } catch(error) {
+            console.log(error);
+
+            return false;
+        }
+    }
 }
