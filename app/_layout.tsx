@@ -15,6 +15,8 @@ import { secretsNames } from '@/utils/appConstants';
 import { IAuthService } from '@/services/Auth/IAuthService';
 import { AuthContextType } from './AuthContextType';
 import SplashScreen from './screens/SplashScreen';
+import UnitDetailsScreen from './screens/UnitDetailsScreen';
+import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-types/UnitsStackNavigationParams';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -85,7 +87,6 @@ export default function App() {
             },
             signOut: async () => {
                 await authService.logout();
-                console.log("logging out");
                 dispatch({ type: 'SIGN_OUT', loggedIn: false });
             },
             signUp: async (data:any) => {
@@ -93,7 +94,6 @@ export default function App() {
                 // We will also need to handle errors if sign up failed
                 // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
                 // In the example, we'll use a dummy token
-
                 dispatch({ type: 'SIGN_IN', loggedIn: true });
             },
         }),
@@ -141,6 +141,14 @@ function MainScreens() {
                     title: null,
                     headerTransparent: true,
                     headerLeft: (props) => BlurredBackButton(navigation)
+                })}/>
+            <RootStack.Screen
+                name='UnitDetailsScreen'
+                component={UnitDetailsScreen}
+                options={({navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}) => ({
+                    title: null,
+                    headerTransparent: true,
+                    //headerLeft: (props) => BlurredBackButton(navigation)
                 })}/>
             <RootStack.Screen
                 name='ChooseLanguageScreen'

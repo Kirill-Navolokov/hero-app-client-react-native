@@ -6,6 +6,7 @@ import appColors from "@/assets/colors";
 import { Image } from "react-native";
 import { tabImages } from "@/assets/images";
 import { strings } from "@/assets/strings";
+import { UnitsScreen } from "./UnitsScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,12 @@ export default function MainScreen() : React.JSX.Element {
             <Tab.Screen 
                 name="tab_shield"
                 component={WodsScreen}
+                options={{
+                    headerShown: false
+                }}/>
+            <Tab.Screen 
+                name="tab_unit"
+                component={UnitsScreen}
                 options={{
                     headerShown: false
                 }}/>
