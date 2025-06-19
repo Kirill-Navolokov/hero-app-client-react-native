@@ -39,7 +39,7 @@ export default function MainScreen() : React.JSX.Element {
                     headerShown: false
                 }}/>
             <Tab.Screen 
-                name="tab_unit"
+                name="tab_units"
                 component={UnitsScreen}
                 options={{
                     headerShown: false

@@ -43,13 +43,10 @@ export default function WodDetailsScreen(
         setNumberOfLines(isExpanded ? EXPANDABLE_TEXT_MAX_LINES : undefined);
         setIsExpanded(!isExpanded);
     }
-    console.log(wod.executionDate);
 
     return (
         <ScrollView
-            bounces={false}
             contentContainerStyle={{
-                paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom,
             }}
             style={styles.container}>

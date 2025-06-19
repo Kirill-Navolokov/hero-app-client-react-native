@@ -5,4 +5,5 @@ export interface UnitDto {
     type: number,
     foundationDate: string;
     imageUrl: string;
+    socialNetworks?: {[type: number]: string}
 }

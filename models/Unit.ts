@@ -1,4 +1,5 @@
 import { UnitType } from "@/enums/UnitType";
+import { SocialNetwork } from "./SocialNetwork";
 
 export interface Unit {
     id: string;
@@ -7,4 +8,5 @@ export interface Unit {
     type: UnitType;
     foundationDate: Date;
     imageUrl: string;
+    socialNetworks?: SocialNetwork[]
 }

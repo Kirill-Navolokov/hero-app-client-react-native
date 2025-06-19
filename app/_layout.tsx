@@ -17,6 +17,8 @@ import { AuthContextType } from './AuthContextType';
 import SplashScreen from './screens/SplashScreen';
 import UnitDetailsScreen from './screens/UnitDetailsScreen';
 import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-types/UnitsStackNavigationParams';
+import { StyleSheet, View } from 'react-native';
+import { labelStyles } from '@/assets/styles';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -137,19 +139,15 @@ function MainScreens() {
             <RootStack.Screen
                 name='WodDetailsScreen'
                 component={WodDetailsScreen}
-                options={({navigation, route}:{navigation:WodDetailsNavigationProp, route: WodDetailsRouteProp}) => ({
-                    title: null,
-                    headerTransparent: true,
-                    headerLeft: (props) => BlurredBackButton(navigation)
-                })}/>
+                options={({navigation, route}:{navigation:WodDetailsNavigationProp, route: WodDetailsRouteProp}) =>
+                    defaultHeaderOptions(route.params.title)
+                }/>
             <RootStack.Screen
                 name='UnitDetailsScreen'
                 component={UnitDetailsScreen}
-                options={({navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}) => ({
-                    title: null,
-                    headerTransparent: true,
-                    //headerLeft: (props) => BlurredBackButton(navigation)
-                })}/>
+                options={({navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}) =>
+                    defaultHeaderOptions(route.params.title)
+                }/>
             <RootStack.Screen
                 name='ChooseLanguageScreen'
                 component={ChooseLanguageScreen}
@@ -169,6 +167,21 @@ function MainScreens() {
                 }}/>
         </>
     )
+}
+
+function defaultHeaderOptions(title?: string) {
+    return {
+        title: title,
+        headerTitleStyle: {
+            fontSize: 22
+        },
+        headerStyle: {
+            backgroundColor: appColors.backgroundPrimary
+        },
+        headerTitle: labelStyles.title,
+        headerTintColor: appColors.textPrimary,
+        headerBackButtonDisplayMode: "minimal"
+    }
 }
 
 //A76EB906-ACCD-4FE1-921E-7E7092A26825
