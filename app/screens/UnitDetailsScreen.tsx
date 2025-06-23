@@ -7,13 +7,13 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import UnitWorkouts from "../components/unit/UnitWorkouts";
 import UnitAbout from "../components/unit/UnitAbout";
 import { Tabs, MaterialTabBar } from 'react-native-collapsible-tab-view'
-import { Unit } from "@/models/Unit";
+import { useNavigation } from "expo-router";
 
 export default function UnitDetailsScreen(
     {navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}
 ) : React.JSX.Element {
     const unit = route.params.unit;
-
+    
     return (
         <Tabs.Container
             containerStyle={styles.container}
@@ -37,7 +37,7 @@ export default function UnitDetailsScreen(
                     inactiveColor={appColors.textPrimary}/>
             )}>
             <Tabs.Tab name="Тренування">
-                <UnitWorkouts unit={unit} />
+                <UnitWorkouts unit={unit} navigation={useNavigation()} />
             </Tabs.Tab>
             <Tabs.Tab name="Опис">
                 <Tabs.ScrollView>

@@ -17,8 +17,9 @@ import { AuthContextType } from './AuthContextType';
 import SplashScreen from './screens/SplashScreen';
 import UnitDetailsScreen from './screens/UnitDetailsScreen';
 import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-types/UnitsStackNavigationParams';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 import { labelStyles } from '@/assets/styles';
+import UnitWorkoutDetails from './components/unit/UnitWorkoutDetails';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -148,6 +149,22 @@ function MainScreens() {
                 options={({navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}) =>
                     defaultHeaderOptions(route.params.title)
                 }/>
+            <RootStack.Screen
+                name='components/unit/UnitWorkoutDetails'
+                component={UnitWorkoutDetails}
+                options={({navigation, route}) => ({
+                    presentation:"modal",
+                    title: route.params.title,
+                    headerTitleStyle: {
+                        color: appColors.textPrimary
+                    },
+                    headerStyle: {
+                        backgroundColor: appColors.backgroundPrimary,
+                    },
+                    headerLeft: () => (
+                       <Button onPress={() => {navigation.goBack();}} title={strings.close} />
+                    )
+                })}/>
             <RootStack.Screen
                 name='ChooseLanguageScreen'
                 component={ChooseLanguageScreen}

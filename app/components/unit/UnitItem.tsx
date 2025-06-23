@@ -1,9 +1,7 @@
 import appColors from "@/assets/colors";
-import { strings } from "@/assets/strings";
 import { labelStyles } from "@/assets/styles";
 import { Unit } from "@/models/Unit";
 import { UnitsNavigationProp } from "@/navigation-types/UnitsStackNavigationParams";
-import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 export function UnitListItem(

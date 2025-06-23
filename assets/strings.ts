@@ -15,5 +15,7 @@ export const strings = {
     kacapian: "російська",
     seriouslyQuestion: "Серйозно?",
     shouldWeAllowToCAcceptChoice: "Хіба схоже, що тут буде російська?",
-    fixMistake: "Виправити помилку"
+    fixMistake: "Виправити помилку",
+    getSweatOrDie: "Потій або помри ©OTOY",
+    close: "Закрити"
 }

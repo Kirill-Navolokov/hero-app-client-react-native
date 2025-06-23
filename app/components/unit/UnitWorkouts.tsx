@@ -1,5 +1,4 @@
 import appColors from "@/assets/colors";
-import { strings } from "@/assets/strings";
 import { labelStyles } from "@/assets/styles";
 import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
@@ -7,10 +6,15 @@ import { Unit } from "@/models/Unit";
 import { Workout } from "@/models/Workout";
 import { IUnitsService } from "@/services/Units/IUnitsService";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View, ActivityIndicator, RefreshControl } from "react-native";
+import { Image, StyleSheet, Text, View, ActivityIndicator, RefreshControl, Modal } from "react-native";
 import { Tabs } from "react-native-collapsible-tab-view";
+import unitWorkoutListItem from "./UnitWorkoutItem";
+import { NavigationProp } from "@react-navigation/native";
+import { Separator } from "../Separator";
 
-export default function UnitWorkouts({unit}:{unit: Unit}): React.JSX.Element {
+export default function UnitWorkouts(
+    {unit,navigation}:
+    {unit: Unit, navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>}): React.JSX.Element {
     var unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
 
     const [workouts, setWorkouts] = useState(Array<Workout>)
@@ -37,22 +41,22 @@ export default function UnitWorkouts({unit}:{unit: Unit}): React.JSX.Element {
     };
 
     useEffect(fetchUnitWorkouts, []);
-
     return (
-        <Tabs.FlatList
-            data={workouts}
-            refreshControl={<RefreshControl
-                progressViewOffset={10}
-                refreshing={isRefresing}
-                onRefresh={fetchUnitWorkouts}
-                tintColor={appColors.white}/>
-            }
-            ListEmptyComponent={EmptyTrainingsList(isInitialLoading)}
-            renderItem={(item) => {
-                return item.item.name != undefined
-                    ? <Text>{item.item.name}</Text>
-                    : <Text>{item.item.date.toLocaleDateString(strings.locale)}</Text>
-            }}/>
+        <View>
+            <Tabs.FlatList
+                data={workouts}
+                refreshControl={<RefreshControl
+                    progressViewOffset={10}
+                    refreshing={isRefresing}
+                    onRefresh={fetchUnitWorkouts}
+                    tintColor={appColors.white}/>
+                }
+                ItemSeparatorComponent={() => <Separator />}
+                ListEmptyComponent={EmptyTrainingsList(isInitialLoading)}
+                renderItem={(item) => unitWorkoutListItem(
+                    item.item,
+                    navigation)}/>
+        </View>
     )
 }
 

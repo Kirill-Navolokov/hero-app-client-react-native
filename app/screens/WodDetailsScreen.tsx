@@ -20,7 +20,7 @@ export default function WodDetailsScreen(
     const [isExpanded, setIsExpanded] = useState(false);
     const [isExpandable, setIsExpandable] = useState<boolean|undefined>(undefined);
     const [isInitialized, setIsInitialized] = useState(false);
-    
+
     const onDescriptionLoaded = (event: NativeSyntheticEvent<TextLayoutEventData>) => {
         if(isInitialized)
             return;
@@ -83,7 +83,7 @@ export default function WodDetailsScreen(
                         }]}>{isExpanded != true ? strings.more : strings.less}</Text>
                 </TouchableHighlight>
             }
-            <Text style={styles.footer}>Потій або помри &copy;OTOY</Text>
+            <Text style={styles.footer}>{strings.getSweatOrDie}</Text>
         </ScrollView>
     )
 }

@@ -4,7 +4,7 @@ import { Unit } from "@/models/Unit";
 import { UnitsNavigationProp } from "@/navigation-types/UnitsStackNavigationParams";
 import { IUnitsService } from "@/services/Units/IUnitsService";
 import { useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import appColors from "@/assets/colors";
@@ -81,12 +81,10 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
 const styles = StyleSheet.create({
     activeSegmentTitle: {
         color: appColors.black,
-        fontSize: 20,
-        lineHeight: 30
+        fontSize: 16
     },
     inactiveSegmentTitle: {
         color: appColors.textSecondary,
-        fontSize: 20,
-        lineHeight: 30
+        fontSize: 16
     }
 })

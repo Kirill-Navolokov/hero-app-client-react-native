@@ -54,9 +54,8 @@ export class UnitsService implements IUnitsService {
     }
 
     async getUnitWorkouts(unitId: string): Promise<Array<Workout>> {
-        // var dtos = await this.restService.getData<Array<WorkoutDto>>(
-        //     `${api.units}/${unitId}/${api.wods}`);
-        var dtos = Array<WorkoutDto>();
+        var dtos = await this.restService.getData<Array<WorkoutDto>>(
+            `${api.units}/${unitId}${api.wods}`);
         var workouts = dtos.map(this.mapWorkout);
 
         return workouts;
