@@ -19,12 +19,16 @@ export const labelStyles = StyleSheet.create({
     },
     body: {
         color: appColors.textPrimary,
-        fontSize: 20,
+        fontSize: 18,
         lineHeight: 30
     },
     caption: {
         color: appColors.textPrimary,
-        fontSize: 18,
+        fontSize: 16,
         lineHeight: 25
+    },
+    footer: {
+        color: appColors.textSecondary,
+        fontSize: 14,
     }
 })

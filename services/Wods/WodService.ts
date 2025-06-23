@@ -41,9 +41,9 @@ export class WodService implements IWodService {
             creationDate,
             type,
             imageUrl,
-            backgroundUrl } = wodDto;
-        
-        console.log(typeof executionDate)
+            backgroundUrl
+        } = wodDto;
+
         return {
             id: id,
             unitId: unitId,

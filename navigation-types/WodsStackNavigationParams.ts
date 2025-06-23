@@ -1,6 +1,5 @@
 import { Wod } from "@/models/Wod";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export type WodsStackNavigationList = {
     Wods: undefined, // undefined because you aren't passing any params to the home screen

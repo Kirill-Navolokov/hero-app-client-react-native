@@ -15,6 +15,11 @@ import { secretsNames } from '@/utils/appConstants';
 import { IAuthService } from '@/services/Auth/IAuthService';
 import { AuthContextType } from './AuthContextType';
 import SplashScreen from './screens/SplashScreen';
+import UnitDetailsScreen from './screens/UnitDetailsScreen';
+import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-types/UnitsStackNavigationParams';
+import { Button, StyleSheet, View } from 'react-native';
+import { labelStyles } from '@/assets/styles';
+import UnitWorkoutDetails from './components/unit/UnitWorkoutDetails';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -85,7 +90,6 @@ export default function App() {
             },
             signOut: async () => {
                 await authService.logout();
-                console.log("logging out");
                 dispatch({ type: 'SIGN_OUT', loggedIn: false });
             },
             signUp: async (data:any) => {
@@ -93,7 +97,6 @@ export default function App() {
                 // We will also need to handle errors if sign up failed
                 // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
                 // In the example, we'll use a dummy token
-
                 dispatch({ type: 'SIGN_IN', loggedIn: true });
             },
         }),
@@ -137,10 +140,30 @@ function MainScreens() {
             <RootStack.Screen
                 name='WodDetailsScreen'
                 component={WodDetailsScreen}
-                options={({navigation, route}:{navigation:WodDetailsNavigationProp, route: WodDetailsRouteProp}) => ({
-                    title: null,
-                    headerTransparent: true,
-                    headerLeft: (props) => BlurredBackButton(navigation)
+                options={({navigation, route}:{navigation:WodDetailsNavigationProp, route: WodDetailsRouteProp}) =>
+                    defaultHeaderOptions(route.params.title)
+                }/>
+            <RootStack.Screen
+                name='UnitDetailsScreen'
+                component={UnitDetailsScreen}
+                options={({navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}) =>
+                    defaultHeaderOptions(route.params.title)
+                }/>
+            <RootStack.Screen
+                name='components/unit/UnitWorkoutDetails'
+                component={UnitWorkoutDetails}
+                options={({navigation, route}) => ({
+                    presentation:"modal",
+                    title: route.params.title,
+                    headerTitleStyle: {
+                        color: appColors.textPrimary
+                    },
+                    headerStyle: {
+                        backgroundColor: appColors.backgroundPrimary,
+                    },
+                    headerLeft: () => (
+                       <Button onPress={() => {navigation.goBack();}} title={strings.close} />
+                    )
                 })}/>
             <RootStack.Screen
                 name='ChooseLanguageScreen'
@@ -161,6 +184,21 @@ function MainScreens() {
                 }}/>
         </>
     )
+}
+
+function defaultHeaderOptions(title?: string) {
+    return {
+        title: title,
+        headerTitleStyle: {
+            fontSize: 22
+        },
+        headerStyle: {
+            backgroundColor: appColors.backgroundPrimary
+        },
+        headerTitle: labelStyles.title,
+        headerTintColor: appColors.textPrimary,
+        headerBackButtonDisplayMode: "minimal"
+    }
 }
 
 //A76EB906-ACCD-4FE1-921E-7E7092A26825

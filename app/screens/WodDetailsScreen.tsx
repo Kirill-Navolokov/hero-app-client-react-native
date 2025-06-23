@@ -20,7 +20,7 @@ export default function WodDetailsScreen(
     const [isExpanded, setIsExpanded] = useState(false);
     const [isExpandable, setIsExpandable] = useState<boolean|undefined>(undefined);
     const [isInitialized, setIsInitialized] = useState(false);
-    
+
     const onDescriptionLoaded = (event: NativeSyntheticEvent<TextLayoutEventData>) => {
         if(isInitialized)
             return;
@@ -43,13 +43,10 @@ export default function WodDetailsScreen(
         setNumberOfLines(isExpanded ? EXPANDABLE_TEXT_MAX_LINES : undefined);
         setIsExpanded(!isExpanded);
     }
-    console.log(wod.executionDate);
 
     return (
         <ScrollView
-            bounces={false}
             contentContainerStyle={{
-                paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom,
             }}
             style={styles.container}>
@@ -86,7 +83,7 @@ export default function WodDetailsScreen(
                         }]}>{isExpanded != true ? strings.more : strings.less}</Text>
                 </TouchableHighlight>
             }
-            <Text style={styles.footer}>Потій або помри &copy;OTOY</Text>
+            <Text style={styles.footer}>{strings.getSweatOrDie}</Text>
         </ScrollView>
     )
 }
