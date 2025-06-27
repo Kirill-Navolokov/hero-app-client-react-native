@@ -4,11 +4,11 @@ import { Unit } from "@/models/Unit";
 import { TYPES } from "@/ioc/TypesRegistrations";
 import { IRestService } from "@/api/IRestService";
 import { api } from "@/api/ApiConstants";
-import { UnitDto } from "@/dtos/UnitDto";
+import { UnitDto } from "@/api/dtos/UnitDto";
 import { UnitType } from "@/enums/UnitType";
 import { SocialNetwork } from "@/models/SocialNetwork";
 import { Workout } from "@/models/Workout";
-import { WorkoutDto } from "@/dtos/WorkoutDto";
+import { WorkoutDto } from "@/api/dtos/WorkoutDto";
 
 @injectable()
 export class UnitsService implements IUnitsService {

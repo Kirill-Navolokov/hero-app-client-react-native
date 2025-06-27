@@ -20,6 +20,7 @@ import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-ty
 import { Button, StyleSheet, View } from 'react-native';
 import { labelStyles } from '@/assets/styles';
 import UnitWorkoutDetails from './components/unit/UnitWorkoutDetails';
+import { CacheLastSyncs } from '@/utils/cacheExpirations';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -59,6 +60,12 @@ export default function App() {
         // Fetch the token from storage then navigate to our appropriate place
         const bootstrapAsync = async () => {
             var isTokensValid = await authService.verifyTokens();
+            var secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
+
+            var cacheLastSyncs = await secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs);
+            if(cacheLastSyncs == null)
+                await secureStorage.setObject(secretsNames.cacheLastSyncs, {})
+
             // After restoring token, we may need to validate it in production apps
             // This will switch to the App screen or Auth screen and this loading
             // screen will be unmounted and thrown away.
