@@ -1,4 +1,4 @@
-import { Wod } from "@/models/Wod";
+import { Wod } from "@/db/schema";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 export type WodsStackNavigationList = {

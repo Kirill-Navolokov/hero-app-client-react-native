@@ -1,6 +1,5 @@
 import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
-import { Unit } from "@/models/Unit";
 import { UnitsNavigationProp } from "@/navigation-types/UnitsStackNavigationParams";
 import { IUnitsService } from "@/services/Units/IUnitsService";
 import { useEffect, useState } from "react";
@@ -10,6 +9,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import appColors from "@/assets/colors";
 import { Separator } from "../components/Separator";
 import { UnitListItem } from "../components/unit/UnitItem";
+import { Unit } from "@/db/schema";
 
 export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
@@ -19,9 +19,9 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const [isRefresing, setRefreshing] = useState(false);
     const fetchUnits = () => {
         unitsService.getUnits()
-            .then(units => {
-                setUnits(unitsService.units);
-                setCommunities(unitsService.communities);
+            .then(result => {
+                setUnits(result[0]);
+                setCommunities(result[1]);
             });
     }
 

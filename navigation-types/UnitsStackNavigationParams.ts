@@ -1,4 +1,4 @@
-import { Unit } from "@/models/Unit";
+import { Unit } from "@/db/schema";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 export type UnitsStackNavigationList = {

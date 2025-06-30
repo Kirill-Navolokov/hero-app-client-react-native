@@ -1,28 +1,28 @@
 import appColors from "@/assets/colors";
 import { labelStyles } from "@/assets/styles";
+import { Unit } from "@/db/schema";
 import { SocialNetworkType } from "@/enums/SocialNetworkType";
 import { SocialNetwork } from "@/models/SocialNetwork";
-import { Unit } from "@/models/Unit";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, Linking, ScrollView, Text, TouchableHighlight, View } from "react-native";
+import { FlatList, Linking, Text, TouchableHighlight, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function UnitAbout({unit}:{unit: Unit}): React.JSX.Element {
+    var socialNetworks: SocialNetwork[] = JSON.parse(unit.socialNetworks);
     return (
         <View
             style={{marginBottom: useSafeAreaInsets().bottom}}>
             <FlatList
                 scrollEnabled={false}
-                data={unit.socialNetworks}
+                data={socialNetworks}
                 horizontal={false}
                 numColumns={2}
                 renderItem={({item})=> SocialNetworkItem(item)}/>
             <Text style={[
-                labelStyles.caption,
-                {
-                    margin: 10
-                }]}>{unit.description}</Text>
+                    labelStyles.caption,
+                    { margin: 10 }
+                ]}>{unit.description}</Text>
         </View>
     )
 }

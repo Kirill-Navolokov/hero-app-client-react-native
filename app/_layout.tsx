@@ -22,6 +22,15 @@ import { labelStyles } from '@/assets/styles';
 import UnitWorkoutDetails from './components/unit/UnitWorkoutDetails';
 import { CacheLastSyncs } from '@/utils/cacheExpirations';
 
+import { Suspense } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { SQLiteProvider, openDatabaseSync } from 'expo-sqlite';
+import { drizzle } from 'drizzle-orm/expo-sqlite';
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import migrations from '@/drizzle/migrations';
+import * as schema from '@/db/schema';
+import { DbConnection } from '@/db/DbConnection';
+
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -109,8 +118,16 @@ export default function App() {
         }),
         []);
 
+    const expoDb = openDatabaseSync("hero_book");
+    const db = drizzle(expoDb);
+    const { success, error } = useMigrations(db, migrations);
+    var dbConnection = iocContainer.get<DbConnection>(TYPES.DbConnection);
+    dbConnection.init(db);
+
     return (
         <AuthContext.Provider value={authContext}>
+            <SQLiteProvider
+                databaseName='hero_book'>
             <RootStack.Navigator
                 screenOptions={{
                     //animationDuration: 10
@@ -122,6 +139,7 @@ export default function App() {
                         options={{headerShown: false}}/>)
                     : (state.isLoggedIn ? MainScreens() : AuthScreens())}
             </RootStack.Navigator>
+            </SQLiteProvider>
         </AuthContext.Provider>
     )
 }

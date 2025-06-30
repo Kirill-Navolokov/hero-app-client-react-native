@@ -1,7 +1,6 @@
 import appColors from "@/assets/colors";
 import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
-import { Wod } from "@/models/Wod";
 import { IWodService } from "@/services/Wods/IWodService";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
@@ -11,6 +10,7 @@ import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams
 import { Separator } from "../components/Separator";
 import { AuthContext } from "../_layout";
 import { AxiosError } from "axios";
+import { Wod } from "@/db/schema";
 
 export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp}) {
     const wodsService = iocContainer.get<IWodService>(TYPES.WodService);

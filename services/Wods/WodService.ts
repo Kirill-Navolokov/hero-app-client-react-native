@@ -1,4 +1,3 @@
-import { Wod } from "@/models/Wod";
 import { WodDto } from "@/api/dtos/WodDto";
 import { IWodService } from "./IWodService";
 import { IRestService } from "@/api/IRestService";
@@ -10,13 +9,18 @@ import { ISecureStorage } from "../ISecureStorage";
 import { CacheLastSyncs } from "@/utils/cacheExpirations";
 import { cacheTtls, secretsNames } from "@/utils/appConstants";
 import shouldSync from "@/utils/helperFunctions";
+import { DbConnection } from "@/db/DbConnection";
+import { Wod, wods } from "@/db/schema";
+import { sql } from "drizzle-orm";
+import { SQLiteInsertOnConflictDoUpdateConfig } from "drizzle-orm/sqlite-core";
 
 @injectable()
 export class WodService implements IWodService {
+    private readonly wodHonorshipMappings: {[num: number]: WodHonorship};
+
     @inject(TYPES.SecureStorage) private secureStorage!: ISecureStorage;
     @inject(TYPES.RestService) private restService!: IRestService;
-
-    private readonly wodHonorshipMappings: {[num: number]: WodHonorship};
+    @inject(TYPES.DbConnection) private dbConection!: DbConnection;
 
     constructor() {
         this.wodHonorshipMappings = {
@@ -28,22 +32,39 @@ export class WodService implements IWodService {
 
     async getWods(): Promise<Array<Wod>> {
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
+        var wodsList = new Array<Wod>();
+        if(!shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync)) {
+            wodsList  = await this.dbConection.db.select().from(wods);
+            if(wodsList.length != 0)
+                return wodsList;
+        }
 
-        if(!shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync))
-            return [];
-            //return from db;
-
-
+        console.log('syncing wods');
         var dtos = await this.restService.getData<Array<WodDto>>(api.wods);
-        var wods = new Array<Wod>();
-        dtos.forEach(element => {
-            wods.push(this.mapWod(element))
-        });
-        //write wods to db;
+        dtos.forEach(item => wodsList.push(this.mapWod(item)));
+        this.dbConection.db.insert(wods).values(wodsList).onConflictDoUpdate(this.wodConflictResolver());
+
         cacheLastSyncs.wodsLastSync = Date.now();
         await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
 
-        return wods;
+        return wodsList;
+    }
+
+    private wodConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any> {
+        return {
+            target: wods.id,
+            set: {
+                unitId: sql.raw(`excluded.unitId`),
+                name: sql.raw(`excluded.name`),
+                description: sql.raw(`excluded.description`),
+                scheme: sql.raw(`excluded.scheme`),
+                executionDate: sql.raw(`excluded.executionDate`),
+                creationDate: sql.raw(`excluded.creationDate`),
+                type: sql.raw(`excluded.type`),
+                imageUrl: sql.raw(`excluded.imageUrl`),
+                backgroundUrl: sql.raw(`excluded.backgroundUrl`)
+            }
+        }
     }
 
     private mapWod(wodDto: WodDto): Wod {
@@ -62,7 +83,7 @@ export class WodService implements IWodService {
 
         return {
             id: id,
-            unitId: unitId,
+            unitId: unitId == undefined ? null: unitId,
             name: name,
             description: description,
             scheme: scheme,
@@ -70,7 +91,7 @@ export class WodService implements IWodService {
             creationDate: new Date(creationDate),
             type: this.wodHonorshipMappings[type],
             imageUrl: imageUrl,
-            backgroundUrl: backgroundUrl,
+            backgroundUrl: backgroundUrl == undefined ? null : backgroundUrl,
         };
     }
 }
