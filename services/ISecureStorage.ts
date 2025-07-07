@@ -7,5 +7,7 @@ export interface ISecureStorage {
 
     setSecret(name: string, secret: string): Promise<void>;
 
-    setObject(name: string, object: any): Promise<void>
+    setObject(name: string, object: any): Promise<void>;
+
+    verifyCacheLastSyncs(): Promise<void>;
 }

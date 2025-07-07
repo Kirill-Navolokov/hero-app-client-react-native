@@ -71,9 +71,7 @@ export default function App() {
             var isTokensValid = await authService.verifyTokens();
             var secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
 
-            var cacheLastSyncs = await secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs);
-            if(cacheLastSyncs == null)
-                await secureStorage.setObject(secretsNames.cacheLastSyncs, {})
+            await secureStorage.verifyCacheLastSyncs();
 
             // After restoring token, we may need to validate it in production apps
             // This will switch to the App screen or Auth screen and this loading
@@ -100,7 +98,6 @@ export default function App() {
                 // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
                 // In the example, we'll use a dummy token
 
-                console.log(email, password);
                 await authService.signIn(email, password);
                 dispatch({ type: 'SIGN_IN', loggedIn: true });
             },

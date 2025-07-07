@@ -1,6 +1,8 @@
 import { injectable } from "inversify";
 import { ISecureStorage } from "./ISecureStorage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { secretsNames } from "@/utils/appConstants";
+import { CacheLastSyncs } from "@/utils/cacheExpirations";
 
 @injectable()
 export class SecureStorage implements ISecureStorage {
@@ -27,5 +29,11 @@ export class SecureStorage implements ISecureStorage {
 
     setObject(name: string, object: any): Promise<void> {
         return AsyncStorage.setItem(name, JSON.stringify(object));
+    }
+
+    async verifyCacheLastSyncs(): Promise<void> {
+        var cacheLastSyncs = await this.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs);
+        if(cacheLastSyncs == null)
+            await this.setObject(secretsNames.cacheLastSyncs, {})
     }
 }

@@ -17,5 +17,6 @@ export const strings = {
     shouldWeAllowToCAcceptChoice: "Хіба схоже, що тут буде російська?",
     fixMistake: "Виправити помилку",
     getSweatOrDie: "Потій або помри ©OTOY",
-    close: "Закрити"
+    close: "Закрити",
+    search: "Пошук"
 }

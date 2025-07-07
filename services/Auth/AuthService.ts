@@ -27,13 +27,12 @@ export class AuthService implements IAuthService {
         };
 
         var loginResponse = await this.restService.postData<LoginResponse>(api.login, loginRequest);
-        console.log(loginResponse);
-        await this.secureStorage.setSecret(secretsNames.authToken, loginResponse.tokens.accessToken);
-        console.log('here1');
-        await this.secureStorage.setSecret(secretsNames.refreshToken, loginResponse.tokens.refreshToken);
-        console.log('here2');
-        await this.secureStorage.setObject(secretsNames.userInfo, loginResponse.userInfo);
-        console.log('here3');
+        await Promise.all([
+            this.secureStorage.setSecret(secretsNames.authToken, loginResponse.tokens.accessToken),
+            this.secureStorage.setSecret(secretsNames.refreshToken, loginResponse.tokens.refreshToken),
+            this.secureStorage.setObject(secretsNames.userInfo, loginResponse.userInfo),
+            this.secureStorage.verifyCacheLastSyncs()
+        ]);
     }
 
     async googleSignIn(): Promise<boolean> {

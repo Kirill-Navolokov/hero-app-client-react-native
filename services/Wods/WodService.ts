@@ -30,7 +30,18 @@ export class WodService implements IWodService {
         }
     }
 
+    async searchByName(partOfName: string): Promise<Array<Wod>> {
+        return this.dbConection.db.select()
+            .from(wods)
+            .where(
+                sql`${sql`lower(${wods.name})`} like ${`%${partOfName.toLowerCase()}%`}`
+            );
+    }
+
     async getWods(): Promise<Array<Wod>> {
+        try {
+        console.log("retreiving wods");
+        await new Promise((r:any) => setTimeout(r, 3000));
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         var wodsList = new Array<Wod>();
         if(!shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync)) {
@@ -42,12 +53,17 @@ export class WodService implements IWodService {
         console.log('syncing wods');
         var dtos = await this.restService.getData<Array<WodDto>>(api.wods);
         dtos.forEach(item => wodsList.push(this.mapWod(item)));
-        this.dbConection.db.insert(wods).values(wodsList).onConflictDoUpdate(this.wodConflictResolver());
+        await this.dbConection.db.insert(wods).values(wodsList).onConflictDoUpdate(this.wodConflictResolver());
 
         cacheLastSyncs.wodsLastSync = Date.now();
         await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
 
         return wodsList;
+        } catch(error) {
+            console.log(error);
+
+            return [];
+        }
     }
 
     private wodConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any> {
