@@ -32,9 +32,9 @@ export class UnitsService implements IUnitsService {
         }
     }
 
-    async getUnits(): Promise<[Array<Unit>, Array<Unit>]> {
+    async getUnits(forced: boolean): Promise<[Array<Unit>, Array<Unit>]> {
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
-        if(shouldSync(cacheTtls.units, cacheLastSyncs.unitsLastSync)) {
+        if(forced || shouldSync(cacheTtls.units, cacheLastSyncs.unitsLastSync)) {
             console.log('syncing units');
             var dtos = await this.restService.getData<Array<UnitDto>>(api.units);
             await this.dbConection.db.insert(units).values(dtos.map(item => this.mapUnit(item)))

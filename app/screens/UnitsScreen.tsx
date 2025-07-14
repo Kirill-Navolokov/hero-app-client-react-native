@@ -24,8 +24,8 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const safeArea = useSafeAreaInsets();
     const sectionListRef = useRef<SectionList>(null);
 
-    const fetchUnits = () => {
-        unitsService.getUnits()
+    const fetchUnits = (forced: boolean) => {
+        unitsService.getUnits(forced)
             .then(result => {
                 var groupedUnits = getGroupedUnits(
                     result[0], alphabaetSet, restSection);
@@ -50,12 +50,12 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
 
     const onRefresh = () => {
         setRefreshing(true);
-        fetchUnits();
+        fetchUnits(true);
         setRefreshing(false);
     };
 
     useEffect(() => {
-        fetchUnits();
+        fetchUnits(false);
     }, [])
 
     return (

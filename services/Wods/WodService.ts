@@ -38,10 +38,9 @@ export class WodService implements IWodService {
             );
     }
 
-    async getWods(): Promise<Array<Wod>> {
-        try{
+    async getWods(forced: boolean): Promise<Array<Wod>> {
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
-        if(shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync)) {
+        if(forced || shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync)) {
             console.log("syncing wods");
             var dtos = await this.restService.getData<Array<WodDto>>(api.wods);
             await this.dbConection.db.insert(wods).values(dtos.map(item => this.mapWod(item)))
@@ -54,10 +53,6 @@ export class WodService implements IWodService {
         var wodsList  = await this.dbConection.db.select().from(wods);
 
         return wodsList;
-        }catch(error) {
-            console.log(error);
-            return []
-        }
     }
 
     private mapWod(wodDto: WodDto): Wod {

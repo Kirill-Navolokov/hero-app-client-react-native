@@ -1,7 +1,7 @@
 import { Wod } from "@/db/schema";
 
 export interface IWodService {
-    getWods() : Promise<Array<Wod>>;
+    getWods(forced: boolean) : Promise<Array<Wod>>;
 
     searchByName(partOfName: string): Promise<Array<Wod>>;
 }
