@@ -20,6 +20,16 @@ import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-ty
 import { Button, StyleSheet, View } from 'react-native';
 import { labelStyles } from '@/assets/styles';
 import UnitWorkoutDetails from './components/unit/UnitWorkoutDetails';
+import { CacheLastSyncs } from '@/utils/cacheExpirations';
+
+import { Suspense } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { SQLiteProvider, openDatabaseSync } from 'expo-sqlite';
+import { drizzle } from 'drizzle-orm/expo-sqlite';
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import migrations from '@/drizzle/migrations';
+import * as schema from '@/db/schema';
+import { DbConnection } from '@/db/DbConnection';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -59,6 +69,10 @@ export default function App() {
         // Fetch the token from storage then navigate to our appropriate place
         const bootstrapAsync = async () => {
             var isTokensValid = await authService.verifyTokens();
+            var secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
+
+            await secureStorage.verifyCacheLastSyncs();
+
             // After restoring token, we may need to validate it in production apps
             // This will switch to the App screen or Auth screen and this loading
             // screen will be unmounted and thrown away.
@@ -84,7 +98,6 @@ export default function App() {
                 // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
                 // In the example, we'll use a dummy token
 
-                console.log(email, password);
                 await authService.signIn(email, password);
                 dispatch({ type: 'SIGN_IN', loggedIn: true });
             },
@@ -102,8 +115,16 @@ export default function App() {
         }),
         []);
 
+    const expoDb = openDatabaseSync("hero_book");
+    const db = drizzle(expoDb);
+    const { success, error } = useMigrations(db, migrations);
+    var dbConnection = iocContainer.get<DbConnection>(TYPES.DbConnection);
+    dbConnection.init(db);
+
     return (
         <AuthContext.Provider value={authContext}>
+            <SQLiteProvider
+                databaseName='hero_book'>
             <RootStack.Navigator
                 screenOptions={{
                     //animationDuration: 10
@@ -115,6 +136,7 @@ export default function App() {
                         options={{headerShown: false}}/>)
                     : (state.isLoggedIn ? MainScreens() : AuthScreens())}
             </RootStack.Navigator>
+            </SQLiteProvider>
         </AuthContext.Provider>
     )
 }

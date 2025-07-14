@@ -8,11 +8,14 @@ import { IRestService } from "@/api/IRestService";
 import { api } from "@/api/ApiConstants";
 import { Login } from "@/models/Login";
 import { LoginResponse } from "@/models/LoginResponse";
+import { DbConnection } from "@/db/DbConnection";
+import { units, wods } from "@/db/schema";
 
 @injectable()
 export class AuthService implements IAuthService {
     @inject(TYPES.SecureStorage) private secureStorage!: ISecureStorage;
     @inject(TYPES.RestService) private restService!: IRestService;
+    @inject(TYPES.DbConnection) private dbConection!: DbConnection;
 
     constructor() {
     }
@@ -24,13 +27,12 @@ export class AuthService implements IAuthService {
         };
 
         var loginResponse = await this.restService.postData<LoginResponse>(api.login, loginRequest);
-        console.log(loginResponse);
-        await this.secureStorage.setSecret(secretsNames.authToken, loginResponse.tokens.accessToken);
-        console.log('here1');
-        await this.secureStorage.setSecret(secretsNames.refreshToken, loginResponse.tokens.refreshToken);
-        console.log('here2');
-        await this.secureStorage.setObject(secretsNames.userInfo, loginResponse.userInfo);
-        console.log('here3');
+        await Promise.all([
+            this.secureStorage.setSecret(secretsNames.authToken, loginResponse.tokens.accessToken),
+            this.secureStorage.setSecret(secretsNames.refreshToken, loginResponse.tokens.refreshToken),
+            this.secureStorage.setObject(secretsNames.userInfo, loginResponse.userInfo),
+            this.secureStorage.verifyCacheLastSyncs()
+        ]);
     }
 
     async googleSignIn(): Promise<boolean> {
@@ -80,8 +82,11 @@ export class AuthService implements IAuthService {
     // };
     }
 
-    logout(): Promise<void> {
-        return this.secureStorage.clear();
+    async logout(): Promise<void> {
+        await Promise.all([
+            this.secureStorage.clear(),
+            this.clearDb()
+        ]);
     }
 
     async verifyTokens(): Promise<boolean> {
@@ -95,5 +100,10 @@ export class AuthService implements IAuthService {
 
             return false;
         }
+    }
+
+    private async clearDb(): Promise<void> {
+        await this.dbConection.db.delete(wods);
+        await this.dbConection.db.delete(units);
     }
 }

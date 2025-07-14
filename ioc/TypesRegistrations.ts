@@ -5,4 +5,5 @@ export const TYPES = {
     AuthService: Symbol.for('AuthService'),
     PreferencesService: Symbol.for('PreferencesService'),
     UnitsService: Symbol.for('UnitsService'),
+    DbConnection: Symbol.for('DbConnection')
 };

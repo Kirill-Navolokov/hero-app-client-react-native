@@ -2,7 +2,6 @@ import appColors from "@/assets/colors";
 import { labelStyles } from "@/assets/styles";
 import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
-import { Unit } from "@/models/Unit";
 import { Workout } from "@/models/Workout";
 import { IUnitsService } from "@/services/Units/IUnitsService";
 import React, { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { Tabs } from "react-native-collapsible-tab-view";
 import unitWorkoutListItem from "./UnitWorkoutItem";
 import { NavigationProp } from "@react-navigation/native";
 import { Separator } from "../Separator";
+import { Unit } from "@/db/schema";
 
 export default function UnitWorkouts(
     {unit,navigation}:

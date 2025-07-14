@@ -1,10 +1,10 @@
 import appColors from "@/assets/colors";
-import { Wod } from "@/models/Wod";
 import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { labelStyles } from "@/assets/styles";
 import { strings } from "@/assets/strings";
+import { Wod } from "@/db/schema";
 
 export default function wodListItem(
     wod: Wod,

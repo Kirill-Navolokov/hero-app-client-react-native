@@ -10,8 +10,9 @@ export default function UnitWorkoutDetails({route}:{route: RouteProp<any>}): Rea
     return (
         <ScrollView
             contentContainerStyle={{
-                paddingBottom: useSafeAreaInsets().bottom
+                paddingBottom: useSafeAreaInsets().bottom,
             }}
+            contentInset={{bottom: useSafeAreaInsets().bottom}}
             style={{
                 backgroundColor:appColors.backgroundPrimary
             }}>
@@ -22,7 +23,7 @@ export default function UnitWorkoutDetails({route}:{route: RouteProp<any>}): Rea
                 <Text style={[
                     labelStyles.footer,
                     styles.label,
-                    { textAlign: "center" }
+                    { textAlign: "center", marginBottom: useSafeAreaInsets().bottom }
                 ]}>{strings.getSweatOrDie}</Text>
         </ScrollView>
     )
