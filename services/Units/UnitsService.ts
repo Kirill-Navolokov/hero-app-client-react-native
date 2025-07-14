@@ -34,36 +34,23 @@ export class UnitsService implements IUnitsService {
 
     async getUnits(): Promise<[Array<Unit>, Array<Unit>]> {
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
-        var unitsList = new Array<Unit>();
-        var communitiesList = new Array<Unit>();
-        if(!shouldSync(cacheTtls.units, cacheLastSyncs.unitsLastSync)) {
-            unitsList  = await this.dbConection.db.select().from(units)
-                .where(eq(units.type, UnitType.unit));
-            communitiesList  = await this.dbConection.db.select().from(units)
-                .where(eq(units.type, UnitType.community));
-            if(unitsList.length != 0 && communitiesList.length != 0)
-                return [unitsList, communitiesList];
+        if(shouldSync(cacheTtls.units, cacheLastSyncs.unitsLastSync)) {
+            console.log('syncing units');
+            var dtos = await this.restService.getData<Array<UnitDto>>(api.units);
+            await this.dbConection.db.insert(units).values(dtos.map(item => this.mapUnit(item)))
+                    .onConflictDoUpdate(this.unitConflictResolver());
+
+            cacheLastSyncs.unitsLastSync = Date.now();
+            await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        console.log('syncing units');
-        var dtos = await this.restService.getData<Array<UnitDto>>(api.units);
-        dtos.forEach(item => {
-            var unit = this.mapUnit(item);
-            if(unit.type == UnitType.unit)
-                unitsList.push(unit);
-            
-            communitiesList.push(unit);
-        });
-        await this.dbConection.db.transaction(async tx => {
-            await Promise.all([
-                tx.insert(units).values(unitsList).onConflictDoUpdate(this.unitConflictResolver()),
-                tx.insert(units).values(communitiesList).onConflictDoUpdate(this.unitConflictResolver())
-            ]);
-        });
+        var unitsList  = await this.dbConection.db.select().from(units)
+            .where(eq(units.type, UnitType.unit))
+            .orderBy(units.name);
+        var communitiesList  = await this.dbConection.db.select().from(units)
+            .where(eq(units.type, UnitType.community))
+            .orderBy(units.name);
 
-        cacheLastSyncs.unitsLastSync = Date.now();
-        await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
-        
         return [unitsList, communitiesList];
     }
 
