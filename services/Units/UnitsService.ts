@@ -14,7 +14,7 @@ import { ISecureStorage } from "../ISecureStorage";
 import { CacheLastSyncs } from "@/utils/cacheExpirations";
 import { cacheTtls, secretsNames } from "@/utils/appConstants";
 import shouldSync from "@/utils/helperFunctions";
-import { SQLiteInsertOnConflictDoUpdateConfig } from "drizzle-orm/sqlite-core";
+import { unitConflictResolver } from "@/db/conflictResolvers";
 import { eq, sql } from "drizzle-orm";
 
 @injectable()
@@ -38,7 +38,7 @@ export class UnitsService implements IUnitsService {
             console.log('syncing units');
             var dtos = await this.restService.getData<Array<UnitDto>>(api.units);
             await this.dbConection.db.insert(units).values(dtos.map(item => this.mapUnit(item)))
-                    .onConflictDoUpdate(this.unitConflictResolver());
+                .onConflictDoUpdate(unitConflictResolver());
 
             cacheLastSyncs.unitsLastSync = Date.now();
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
@@ -60,20 +60,6 @@ export class UnitsService implements IUnitsService {
         var workouts = dtos.map(this.mapWorkout);
 
         return workouts;
-    }
-
-    private unitConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any> {
-        return {
-            target: units.id,
-            set: {
-                name: sql.raw(`excluded.name`),
-                description: sql.raw(`excluded.description`),
-                type: sql.raw(`excluded.type`),
-                foundationDate: sql.raw(`excluded.foundationDate`),
-                imageUrl: sql.raw(`excluded.imageUrl`),
-                socialNetworks: sql.raw(`excluded.socialNetworks`)
-            }
-        }
     }
 
     private mapUnit(unitDto: UnitDto): Unit {

@@ -30,6 +30,8 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from '@/drizzle/migrations';
 import * as schema from '@/db/schema';
 import { DbConnection } from '@/db/DbConnection';
+import AdvicesScreen from './screens/AdvicesScreen';
+import FaqsScreen from './screens/FaqsScreen';
 
 const RootStack = createNativeStackNavigator();
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -190,22 +192,34 @@ function MainScreens() {
             <RootStack.Screen
                 name='ChooseLanguageScreen'
                 component={ChooseLanguageScreen}
-                options={{
-                    title: strings.language,
-                    headerStyle: {
-                        backgroundColor: appColors.backgroundPrimary
-                    },
-                    headerBackVisible:true,
-                    headerTintColor: appColors.white,
-                    headerTitleStyle: {
-                        color: appColors.white,
-                        fontSize: 20,
-                        fontWeight: "bold"
-                    },
-                    headerBackButtonDisplayMode: "minimal",
-                }}/>
+                options={profileScreenOptions(strings.language)}/>
+            <RootStack.Screen
+                name='FaqsScreen'
+                component={FaqsScreen}
+                options={profileScreenOptions(strings.faq)}/>
+            <RootStack.Screen
+                name='AdvicesScreen'
+                component={AdvicesScreen}
+                options={profileScreenOptions(strings.advices)}/>
         </>
     )
+}
+
+function profileScreenOptions(title?: string): any {
+    return {
+        title: title,
+        headerStyle: {
+            backgroundColor: appColors.backgroundPrimary
+        },
+        headerBackVisible: true,
+        headerTintColor: appColors.white,
+        headerTitleStyle: {
+            color: appColors.white,
+            fontSize: 20,
+            fontWeight: "bold"
+        },
+        headerBackButtonDisplayMode: "minimal"
+    }
 }
 
 function defaultHeaderOptions(title?: string) {

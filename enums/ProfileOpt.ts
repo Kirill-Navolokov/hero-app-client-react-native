@@ -3,6 +3,7 @@ export enum ProfileOpt {
     feedback,
     supportProject,
     faq,
+    advices,
     termsConditions,
     privacyPolicy,
     signout,

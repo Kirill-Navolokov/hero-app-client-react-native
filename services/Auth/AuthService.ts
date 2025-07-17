@@ -9,7 +9,7 @@ import { api } from "@/api/ApiConstants";
 import { Login } from "@/models/Login";
 import { LoginResponse } from "@/models/LoginResponse";
 import { DbConnection } from "@/db/DbConnection";
-import { units, wods } from "@/db/schema";
+import { advices, faqs, units, wods } from "@/db/schema";
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -85,7 +85,7 @@ export class AuthService implements IAuthService {
     async logout(): Promise<void> {
         await Promise.all([
             this.secureStorage.clear(),
-            this.clearDb()
+            this.dbConection.dropData()
         ]);
     }
 
@@ -100,10 +100,5 @@ export class AuthService implements IAuthService {
 
             return false;
         }
-    }
-
-    private async clearDb(): Promise<void> {
-        await this.dbConection.db.delete(wods);
-        await this.dbConection.db.delete(units);
     }
 }

@@ -23,11 +23,11 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
     const [isInitialLoading, setIsInitialLoading] = useState(false);
     const [isInitialyLoaded, setIsInitialLoaded] = useState(false);
     const {signOut} = useContext(AuthContext)!;
-    const fetchWods = () => {
+    const fetchWods = (forced: boolean) => {
         if(!isInitialyLoaded)
             setIsInitialLoading(true);
 
-        wodsService.getWods()
+        wodsService.getWods(forced)
             .then(wods => setWods(wods))
             .catch(error => {
                 if(error instanceof AxiosError && error.status == 401)
@@ -43,12 +43,12 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
 
     const onRefresh = () => {
         setRefreshing(true);
-        fetchWods();
+        fetchWods(true);
         setRefreshing(false);
     };
 
     useEffect(() => {
-        fetchWods();
+        fetchWods(false);
     }, []);
 
     const searchWodChanged = async (newSearch: string) => {
