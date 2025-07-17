@@ -21,7 +21,11 @@ export default function ProfileScreen(
 
     const onOptionSelected = async (type: ProfileOpt) => {
         if(type == ProfileOpt.language) {
-            navigation.navigate("ChooseLanguageScreen")
+            navigation.navigate("ChooseLanguageScreen");
+        } else if(type == ProfileOpt.faq) {
+            navigation.navigate("FaqsScreen");
+        }  else if(type == ProfileOpt.advices) {
+            navigation.navigate("AdvicesScreen");
         } else if(type == ProfileOpt.signout) {
             await signOut();
         }
@@ -60,6 +64,10 @@ export default function ProfileScreen(
                 iconName="question-answer"
                 onSelected={() => onOptionSelected(ProfileOpt.faq)}
                 viewStyle={{marginTop: 20}} />
+            <ProfileOption
+                name={strings.advices}
+                iconName="info"
+                onSelected={() => onOptionSelected(ProfileOpt.advices)}/>
             <ProfileOption
                 name={strings.termsConditions}
                 iconName="handshake"

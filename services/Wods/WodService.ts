@@ -12,7 +12,7 @@ import shouldSync from "@/utils/helperFunctions";
 import { DbConnection } from "@/db/DbConnection";
 import { Wod, wods } from "@/db/schema";
 import { sql } from "drizzle-orm";
-import wodConflictResolver from "@/db/conflictResolvers";
+import { wodConflictResolver } from "@/db/conflictResolvers";
 
 @injectable()
 export class WodService implements IWodService {

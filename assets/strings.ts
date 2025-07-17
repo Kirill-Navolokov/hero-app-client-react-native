@@ -2,7 +2,8 @@ export const strings = {
     language: "Мова",
     leaveFeedback: "Залишити відгук",
     supportProject: "Підтримати проект",
-    faq: "FAQ",
+    faq: "ЧаПи",
+    advices: "Поради",
     termsConditions: "Умови використання",
     privacyPolicy: "Політика конфіденційності",
     signout: "Вийти",
@@ -18,5 +19,6 @@ export const strings = {
     fixMistake: "Виправити помилку",
     getSweatOrDie: "Потій або помри ©OTOY",
     close: "Закрити",
-    search: "Пошук"
+    search: "Пошук",
+
 }
