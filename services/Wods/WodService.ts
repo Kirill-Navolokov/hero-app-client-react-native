@@ -11,7 +11,7 @@ import { cacheTtls, secretsNames } from "@/utils/appConstants";
 import shouldSync from "@/utils/helperFunctions";
 import { DbConnection } from "@/db/DbConnection";
 import { Wod, wods } from "@/db/schema";
-import { sql } from "drizzle-orm";
+import { sql, asc } from "drizzle-orm";
 import { wodConflictResolver } from "@/db/conflictResolvers";
 
 @injectable()
@@ -50,7 +50,10 @@ export class WodService implements IWodService {
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        var wodsList  = await this.dbConection.db.select().from(wods);
+        var wodsList  = await this.dbConection.db.select().from(wods)
+            .orderBy(asc(
+                sql`strftime('%m-%d', datetime(${wods.executionDate}, 'unixepoch'))`
+            ));
 
         return wodsList;
     }
