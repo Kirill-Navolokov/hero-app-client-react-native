@@ -3,7 +3,6 @@ import MainScreen from './screens/MainScreen';
 import WodDetailsScreen from './screens/WodDetailsScreen';
 import { WodDetailsNavigationProp, WodDetailsRouteProp } from '@/navigation-types/WodsStackNavigationParams';
 import { createContext, useEffect, useMemo, useReducer, useState } from 'react';
-import BlurredBackButton from './components/BluredBackButton';
 import ChooseLanguageScreen from './screens/ChooseLanguageScreen';
 import { strings } from '@/assets/strings';
 import appColors from '@/assets/colors';

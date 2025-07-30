@@ -91,6 +91,9 @@ export class AuthService implements IAuthService {
 
     async verifyTokens(): Promise<boolean> {
         try {
+            // NOTE: app is public for now
+            return true;
+
             var accessToken = await this.secureStorage.getSecret(secretsNames.authToken);
             var refreshToken = await this.secureStorage.getSecret(secretsNames.refreshToken);
 
