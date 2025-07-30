@@ -76,11 +76,11 @@ export default function ProfileScreen(
                 name={strings.privacyPolicy}
                 iconName="privacy-tip"
                 onSelected={() => onOptionSelected(ProfileOpt.privacyPolicy)} />
-            <ProfileOption
+            {/* <ProfileOption
                 name={strings.signout}
                 iconName="logout"
                 onSelected={() => onOptionSelected(ProfileOpt.signout)}
-                viewStyle={{marginTop: 30}} />
+                viewStyle={{marginTop: 30}} /> */}
         </ScrollView>
     )
 }

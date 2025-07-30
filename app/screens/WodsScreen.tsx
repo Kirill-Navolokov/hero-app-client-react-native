@@ -2,16 +2,13 @@ import appColors from "@/assets/colors";
 import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
 import { IWodService } from "@/services/Wods/IWodService";
-import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, RefreshControl, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import wodListItem from "../components/WodItem";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { Separator } from "../components/Separator";
-import { AuthContext } from "../_layout";
-import { AxiosError } from "axios";
 import { Wod } from "@/db/schema";
-import { strings } from "@/assets/strings";
 import { labelStyles } from "@/assets/styles";
 import SearchBar from "../components/SearchBar";
 
@@ -22,17 +19,13 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
     const [searchText, setSearchText] = useState<string|undefined>(undefined);
     const [isInitialLoading, setIsInitialLoading] = useState(false);
     const [isInitialyLoaded, setIsInitialLoaded] = useState(false);
-    const {signOut} = useContext(AuthContext)!;
+    const safeArea = useSafeAreaInsets();
     const fetchWods = (forced: boolean) => {
         if(!isInitialyLoaded)
             setIsInitialLoading(true);
 
         wodsService.getWods(forced)
             .then(wods => setWods(wods))
-            .catch(error => {
-                if(error instanceof AxiosError && error.status == 401)
-                    signOut();
-            })
             .finally(() => {
                 if(!isInitialyLoaded) {
                     setIsInitialLoaded(true);
@@ -63,34 +56,37 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
             ? ""
             : newSearch;
  
-        var wods = await wodsService.searchByName(searchName);
+        var wods = searchName == ""
+            ? await wodsService.getWods(false)
+            : await wodsService.searchByName(searchName);
         setWods(wods);
     };
 
-    var safeArea = useSafeAreaInsets();
-
     return (
-        <FlatList
-            contentContainerStyle={{
+        <View
+            style={[styles.container, {
                 paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom,
-                flexGrow:1
-            }}
-            style={{backgroundColor: appColors.backgroundPrimary}}
-            data={wods}
-            renderItem={({item}) => wodListItem(item, navigation)}
-            ListHeaderComponent={<SearchBar
+            }]}>
+            <SearchBar
                 searchText={searchText}
                 onTextChanged={searchWodChanged}/>
-            }
-            ListEmptyComponent={EmptyListView(isInitialLoading, "Упс, схоже, щось загубилось...")}
-            ItemSeparatorComponent={() => <Separator />}
-            refreshControl={<RefreshControl
-                progressViewOffset={safeArea.top}
-                refreshing={isRefresing}
-                onRefresh={onRefresh}
-                tintColor={appColors.white}/>}>
-        </FlatList>
+            <FlatList
+                contentContainerStyle={{
+                    paddingBottom: safeArea.bottom
+                }}
+                style={{backgroundColor: appColors.backgroundPrimary}}
+                data={wods}
+                renderItem={({item}) => wodListItem(item, navigation)}
+                ListEmptyComponent={EmptyListView(isInitialLoading, "Упс, схоже, щось загубилось...")}
+                ItemSeparatorComponent={() => <Separator />}
+                refreshControl={<RefreshControl
+                    progressViewOffset={safeArea.top}
+                    refreshing={isRefresing}
+                    onRefresh={onRefresh}
+                    tintColor={appColors.white}/>}>
+            </FlatList>
+        </View>
     )
 }
 
@@ -113,6 +109,11 @@ function EmptyListView(isLoading: boolean, emptyText: string): React.JSX.Element
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flexDirection: "column",
+        flexGrow: 1,
+        backgroundColor: appColors.backgroundPrimary
+    },
     emptyListContainer: {
         flex: 1,
         justifyContent: "center",
