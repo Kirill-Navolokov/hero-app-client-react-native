@@ -10,10 +10,7 @@ export default function FallbackImage(
 
     return (<Image
         source={errorOnLoading ? defaultImages[defaultImageType] : {uri: imageUrl}}
-        onError={(data) => {
-            console.log(data);
-            setErrorOnLoading(true);
-        }}
+        onError={(data) => setErrorOnLoading(true)}
         style={[style, errorOnLoading ? defaultImageStyle : {}]}/>
     )
 }
