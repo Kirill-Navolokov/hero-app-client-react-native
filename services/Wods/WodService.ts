@@ -13,6 +13,7 @@ import { DbConnection } from "@/db/DbConnection";
 import { Wod, wods } from "@/db/schema";
 import { sql, asc } from "drizzle-orm";
 import { wodConflictResolver } from "@/db/conflictResolvers";
+import Fuse from 'fuse.js';
 
 @injectable()
 export class WodService implements IWodService {
@@ -31,11 +32,16 @@ export class WodService implements IWodService {
     }
 
     async searchByName(partOfName: string): Promise<Array<Wod>> {
-        return this.dbConection.db.select()
-            .from(wods)
-            .where(
-                sql`${sql`lower(${wods.name})`} like ${`%${partOfName.toLowerCase()}%`}`
-            );
+        const allWods = await this.dbConection.db.select().from(wods);
+        const fuse = new Fuse<Wod>(allWods, {
+            keys: ['name'],
+            threshold: 0.4, // adjust for stricter or looser matching
+            ignoreLocation: true,
+            includeScore: true,
+        });
+        const results = fuse.search(partOfName);
+
+        return results.map(r => r.item);
     }
 
     async getWods(forced: boolean): Promise<Array<Wod>> {
