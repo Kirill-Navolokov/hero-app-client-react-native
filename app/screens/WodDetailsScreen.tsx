@@ -2,11 +2,12 @@ import appColors from "@/assets/colors";
 import { WodDetailsNavigationProp, WodDetailsRouteProp } from "@/navigation-types/WodsStackNavigationParams";
 import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { useState } from "react";
-import { GestureResponderEvent, Image, NativeSyntheticEvent, ScrollView, StyleSheet, Text, TextLayoutEventData, TouchableHighlight, View } from "react-native";
+import { Dimensions, GestureResponderEvent, Image, NativeSyntheticEvent, ScrollView, StyleSheet, Text, TextLayoutEventData, TouchableHighlight, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Separator } from "../components/Separator";
 import { labelStyles } from "@/assets/styles";
 import { strings } from "@/assets/strings";
+import FallbackImage from "../components/FallbackImage";
 
 const EXPANDABLE_TEXT_MAX_LINES = 4;
 
@@ -44,6 +45,8 @@ export default function WodDetailsScreen(
         setIsExpanded(!isExpanded);
     }
 
+    const {width} = Dimensions.get("window");
+
     return (
         <ScrollView
             contentContainerStyle={{
@@ -51,9 +54,17 @@ export default function WodDetailsScreen(
             }}
             style={styles.container}>
             <View style={[styles.header]}>
-                <Image
-                    source={{uri: wod.imageUrl}}
-                    style={styles.backgourdImage} />
+                <FallbackImage
+                    imageUrl={wod.imageUrl}
+                    defaultImageType='wod'
+                    defaultImageStyle={{
+                        tintColor: appColors.backgroundPrimary,
+                        backgroundColor: appColors.white,
+                    }}
+                    style={{
+                        width: width,
+                        height: width / 2,
+                    }} />
                 <View style={{margin: 10}}>
                     <Text style={labelStyles.title}>{wod.name}</Text>
                     <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
@@ -95,10 +106,6 @@ const styles = StyleSheet.create({
     header: {
         flex:1,
         flexDirection: "column"
-    },
-    backgourdImage: {
-        width:"100%",
-        aspectRatio: 2
     },
     image: {
         position: "absolute",

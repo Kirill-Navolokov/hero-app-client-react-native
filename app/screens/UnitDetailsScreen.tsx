@@ -3,25 +3,35 @@ import { strings } from "@/assets/strings";
 import { labelStyles } from "@/assets/styles";
 import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from "@/navigation-types/UnitsStackNavigationParams";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import UnitWorkouts from "../components/unit/UnitWorkouts";
 import UnitAbout from "../components/unit/UnitAbout";
 import { Tabs, MaterialTabBar } from 'react-native-collapsible-tab-view'
 import { useNavigation } from "expo-router";
+import FallbackImage from "../components/FallbackImage";
 
 export default function UnitDetailsScreen(
     {navigation, route}:{navigation:UnitDetailsNavigationProp, route: UnitDetailsRouteProp}
 ) : React.JSX.Element {
     const unit = route.params.unit;
     
+    const {width} = Dimensions.get("window");
     return (
         <Tabs.Container
             containerStyle={styles.container}
             renderHeader={() => (
                 <View style={[styles.header]}>
-                    <Image
-                        source={{uri: unit.imageUrl}}
-                        style={styles.backgourdImage} />
+                    <FallbackImage
+                        imageUrl={unit.imageUrl}
+                        defaultImageType='wod'
+                        defaultImageStyle={{
+                            tintColor: appColors.backgroundPrimary,
+                            backgroundColor: appColors.white,
+                        }}
+                        style={{
+                            width: width,
+                            height: width / 2,
+                        }} />
                     <View style={{margin:10}}>
                         <Text style={labelStyles.title}>{unit.name}</Text>
                         <Text style={labelStyles.caption}>Засновано: {unit.foundationDate.toLocaleDateString(strings.locale)}</Text>
@@ -54,10 +64,5 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: appColors.backgroundPrimary,
-    },
-    backgourdImage: {
-        backgroundColor: appColors.backgroundPrimary,
-        width:"100%",
-        aspectRatio: 2
     }
 })

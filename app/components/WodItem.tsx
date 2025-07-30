@@ -5,6 +5,7 @@ import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { labelStyles } from "@/assets/styles";
 import { strings } from "@/assets/strings";
 import { Wod } from "@/db/schema";
+import FallbackImage from "./FallbackImage";
 
 export default function wodListItem(
     wod: Wod,
@@ -23,7 +24,14 @@ export default function wodListItem(
             underlayColor={appColors.cardBackground}
             style={styles.clickableView}>
             <View style={styles.container}>
-                <Image source={{uri: wod.imageUrl}} style={styles.image}/>
+                <FallbackImage
+                    defaultImageType='wod'
+                    defaultImageStyle={{
+                        tintColor: appColors.backgroundPrimary,
+                        backgroundColor: appColors.white,
+                    }}
+                    imageUrl={wod.imageUrl}
+                    style={styles.image} />
                 <View style={styles.infoContainer}>
                     <Text style={labelStyles.title}>{wod.name}</Text>
                     <Text style={[labelStyles.subtitle, {marginTop: 5}]}>
