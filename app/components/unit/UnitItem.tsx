@@ -3,6 +3,7 @@ import { labelStyles } from "@/assets/styles";
 import { Unit } from "@/db/schema";
 import { UnitsNavigationProp } from "@/navigation-types/UnitsStackNavigationParams";
 import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import FallbackImage from "../FallbackImage";
 
 export function UnitListItem(
     unit: Unit,
@@ -21,7 +22,14 @@ export function UnitListItem(
             underlayColor={appColors.cardBackground}
             style={styles.clickableView}>
             <View style={styles.container}>
-                <Image source={{uri: unit.imageUrl}} style={styles.image}/>
+                <FallbackImage
+                    defaultImageType='wod'
+                    defaultImageStyle={{
+                        tintColor: appColors.backgroundPrimary,
+                        backgroundColor: appColors.white,
+                    }}
+                    imageUrl={unit.imageUrl}
+                    style={styles.image}/>
                 <View style={styles.infoContainer}>
                     <Text style={labelStyles.title}>{unit.name}</Text>
                 </View>

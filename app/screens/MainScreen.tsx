@@ -26,6 +26,7 @@ export default function MainScreen() : React.JSX.Element {
                     borderTopWidth: 1
                 },
                 tabBarIcon: ({focused, color, size}) => {
+                    size = 30;
                     return <Image 
                         source={tabImages[route.name]}
                         style={{width: size, height: size}}
