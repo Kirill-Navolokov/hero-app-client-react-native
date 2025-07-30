@@ -33,7 +33,7 @@ export class WodService implements IWodService {
 
     async searchByName(partOfName: string): Promise<Array<Wod>> {
         const allWods = await this.dbConection.db.select().from(wods);
-        var fuse = new Fuse<Wod>(allWods, {
+        const fuse = new Fuse<Wod>(allWods, {
             keys: ['name'],
             threshold: 0.4, // adjust for stricter or looser matching
             ignoreLocation: true,
