@@ -9,7 +9,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import appColors from "@/assets/colors";
 import { UnitListItem } from "../components/unit/UnitItem";
 import { Unit } from "@/db/schema";
-import { labelStyles } from "@/assets/styles";
+import { defaultViewStyles, labelStyles } from "@/assets/styles";
 import { SectionData } from "@/utils/SectionData";
 
 export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
@@ -60,11 +60,9 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
 
     return (
         <View
-            style={{
-                paddingTop: safeArea.top,
-                backgroundColor: appColors.backgroundPrimary,
-                flex:1
-            }}>
+            style={[defaultViewStyles.container, {
+                paddingTop: safeArea.top
+            }]}>
             <SegmentedControl
                 values={['Підрозділи','Спільноти']}
                 selectedIndex={selectedIndex}
@@ -72,6 +70,9 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
                 fontStyle={styles.inactiveSegmentTitle}
                 onChange={(event) => {
                     setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+                }}
+                style={{
+                    marginHorizontal: 10
                 }}/>
             <View
                 style={{ flex: 1, flexDirection: 'row' }}>
@@ -81,7 +82,6 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
                     keyExtractor={(item:Unit, index:number) => item.name + index}
                     renderItem={({item}) => UnitListItem(item, navigation)}
                     refreshControl={<RefreshControl
-                        progressViewOffset={safeArea.top}
                         refreshing={isRefresing}
                         onRefresh={onRefresh}
                         tintColor={appColors.white}/>}

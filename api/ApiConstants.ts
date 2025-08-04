@@ -5,4 +5,5 @@ export const api = {
     units: "/units",
     advices: "/support/advices",
     faqs: "/support/faqs",
+    businesses: "/businesses"
 }

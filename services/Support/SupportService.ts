@@ -18,7 +18,6 @@ export class SupportService implements ISupportService {
     @inject(TYPES.DbConnection) private readonly dbConection!: DbConnection;
 
     async getAdvices(): Promise<Array<Advice>> {
-        await new Promise(resolve => setTimeout(resolve, 3000));
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(shouldSync(cacheTtls.advices, cacheLastSyncs.advicesLastSync)) {
             console.log("syncing advices");
@@ -36,7 +35,6 @@ export class SupportService implements ISupportService {
     }
 
     async getFaqs(): Promise<Array<Faq>> {
-        await new Promise(resolve => setTimeout(resolve, 3000));
         var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(shouldSync(cacheTtls.faqs, cacheLastSyncs.faqsLastSync)) {
             console.log("syncing faqs");

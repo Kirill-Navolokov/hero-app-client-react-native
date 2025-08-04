@@ -7,6 +7,7 @@ import { Image } from "react-native";
 import { tabImages } from "@/assets/images";
 import { strings } from "@/assets/strings";
 import { UnitsScreen } from "./UnitsScreen";
+import { BusinessesScreen } from "./BusinessesScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,6 +43,12 @@ export default function MainScreen() : React.JSX.Element {
             <Tab.Screen 
                 name="tab_units"
                 component={UnitsScreen}
+                options={{
+                    headerShown: false
+                }}/>
+            <Tab.Screen 
+                name="tab_businesses"
+                component={BusinessesScreen}
                 options={{
                     headerShown: false
                 }}/>

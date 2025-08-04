@@ -9,7 +9,7 @@ import wodListItem from "../components/WodItem";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { Separator } from "../components/Separator";
 import { Wod } from "@/db/schema";
-import { labelStyles } from "@/assets/styles";
+import { defaultViewStyles, labelStyles } from "@/assets/styles";
 import SearchBar from "../components/SearchBar";
 
 export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp}) {
@@ -64,7 +64,7 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
 
     return (
         <View
-            style={[styles.container, {
+            style={[defaultViewStyles.container, {
                 paddingTop: safeArea.top,
                 paddingBottom: safeArea.bottom,
             }]}>
@@ -81,7 +81,6 @@ export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp
                 ListEmptyComponent={EmptyListView(isInitialLoading, "Упс, схоже, щось загубилось...")}
                 ItemSeparatorComponent={() => <Separator />}
                 refreshControl={<RefreshControl
-                    progressViewOffset={safeArea.top}
                     refreshing={isRefresing}
                     onRefresh={onRefresh}
                     tintColor={appColors.white}/>}>
@@ -109,11 +108,6 @@ function EmptyListView(isLoading: boolean, emptyText: string): React.JSX.Element
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-        flexGrow: 1,
-        backgroundColor: appColors.backgroundPrimary
-    },
     emptyListContainer: {
         flex: 1,
         justifyContent: "center",

@@ -16,6 +16,8 @@ import { IUnitsService } from '@/services/Units/IUnitsService';
 import { DbConnection } from '@/db/DbConnection';
 import { ISupportService } from '@/services/Support/ISupportService';
 import { SupportService } from '@/services/Support/SupportService';
+import { IBusinessesService } from '@/services/Businesses/IBusinessesService';
+import { BusinessesService } from '@/services/Businesses/BusinessesService';
 
 const iocContainer = new Container();
 iocContainer.bind<IWodService>(TYPES.WodService).to(WodService).inSingletonScope();
@@ -25,6 +27,7 @@ iocContainer.bind<IAuthService>(TYPES.AuthService).to(AuthService).inSingletonSc
 iocContainer.bind<IPreferencesService>(TYPES.PreferencesService).to(PreferencesService).inSingletonScope();
 iocContainer.bind<IUnitsService>(TYPES.UnitsService).to(UnitsService).inSingletonScope();
 iocContainer.bind<ISupportService>(TYPES.SupportService).to(SupportService).inSingletonScope();
+iocContainer.bind<IBusinessesService>(TYPES.BusinessesService).to(BusinessesService).inSingletonScope();
 iocContainer.bind<DbConnection>(TYPES.DbConnection).to(DbConnection).inSingletonScope();
 
 export { iocContainer };
