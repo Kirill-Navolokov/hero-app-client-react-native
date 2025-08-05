@@ -20,6 +20,7 @@ export const strings = {
     getSweatOrDie: "Потій або помри ©OTOY",
     close: "Закрити",
     search: "Пошук",
-    categories: "Категорії"
+    categories: "Категорії",
+    oopsSomethingLost: "Упс, схоже, щось загубилось..."
 
 }

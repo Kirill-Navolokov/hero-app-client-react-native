@@ -4,7 +4,7 @@ import { TYPES } from "@/ioc/TypesRegistrations";
 import { BusinessesNavigationProp } from "@/navigation-types/BusinessesStackNavigationParams";
 import { IBusinessesService } from "@/services/Businesses/IBusinessesService";
 import { useEffect, useState } from "react";
-import { FlatList, RefreshControl, Text, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DropDownPicker from 'react-native-dropdown-picker';
 import appColors from "@/assets/colors";
@@ -13,12 +13,13 @@ import { strings } from "@/assets/strings";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "../components/SearchBar";
 import businessItem from "../components/ BusinessItem";
+import ListLoadingEmptyStateView from "../components/ListLoadingEmptyStateView";
 
 export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationProp}) {
     const businessesService = iocContainer.get<IBusinessesService>(TYPES.BusinessesService);
     const [businesses, setBusinesses] = useState(Array<BusinessDto>);
     const [categories, setCategories] = useState(Array<{value:string, label:string}>);
-    const [value, setValue] = useState(null);
+    const [selectedCategories, setSelectedCategories] = useState(Array<string>());
     const [isRefresing, setRefreshing] = useState(false);
     const [open, setOpen] = useState(false);
     const [searchText, setSearchText] = useState<string|undefined>(undefined);
@@ -54,20 +55,23 @@ export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationP
     };
 
     const searchBusinessChanged = async (newSearch: string) => {
-        var oldSearch = searchText;
+        let oldSearch = searchText;
         setSearchText(newSearch);
 
         if(newSearch.length < 3 && (oldSearch == undefined || oldSearch.length < 3)) {
             return;
         }
         
-        var searchName = oldSearch != undefined && oldSearch.length >=3 && newSearch.length < 3
+        let searchName = oldSearch != undefined && oldSearch.length >=3 && newSearch.length < 3
             ? ""
             : newSearch;
-        console.log(searchName);
-        var businesses = searchName == ""
-            ? (await businessesService.getBusinesses()).businesses
-            : await businessesService.search(searchName);
+
+        let businesses = await businessesService.search(searchName, selectedCategories);
+        setBusinesses(businesses);
+    };
+
+    const categoriesChanged = async (categories: Array<string>) => {
+        let businesses = await businessesService.search(searchText == undefined ? "" : searchText, categories);
         setBusinesses(businesses);
     };
 
@@ -90,15 +94,16 @@ export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationP
                 mode="BADGE"
                 open={open}
                 setOpen={setOpen}
-                value={value}
-                setValue={setValue}
+                value={selectedCategories}
+                setValue={setSelectedCategories}
+                onChangeValue={categoriesChanged}
                 placeholder={strings.categories}
                 items={categories}
-                ArrowDownIconComponent={() => IconComponent("chevron-down")}
-                ArrowUpIconComponent={() => IconComponent("chevron-up")}
+                ArrowDownIconComponent={() => DropDownComponentIcon("chevron-down")}
+                ArrowUpIconComponent={() => DropDownComponentIcon("chevron-up")}
                 itemSeparator={true}
                 listItemLabelStyle={[labelStyles.caption, {fontWeight: "bold"}]}
-                TickIconComponent={() => IconComponent("checkmark-sharp")}
+                TickIconComponent={() => DropDownComponentIcon("checkmark-sharp")}
                 badgeDotColors={appColors.cardBackground}
                 style={{
                     backgroundColor: appColors.cardBackground,
@@ -112,10 +117,16 @@ export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationP
                 data={businesses}
                 numColumns={2}
                 contentContainerStyle={{
-                   paddingBottom: safeArea.bottom
+                   paddingBottom: safeArea.bottom,
+                   flexGrow: 1
                 }}
                 style={{marginTop:10, flex: 1}}
                 showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                    <ListLoadingEmptyStateView
+                        isLoading={isInitialLoading}
+                        emptyText={strings.oopsSomethingLost}/>
+                }
                 renderItem={(item) => businessItem(item.item)}
                 refreshControl={<RefreshControl
                     refreshing={isRefresing}
@@ -126,9 +137,11 @@ export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationP
     )
 }
 
-function IconComponent(name:string): React.JSX.Element {
-    return (<Ionicons 
-        name={name}
-        size={20}
-        color={appColors.textPrimary} />)
+function DropDownComponentIcon(name:string): React.JSX.Element {
+    return (
+        <Ionicons 
+            name={name}
+            size={20}
+            color={appColors.textPrimary} />
+    )
 }

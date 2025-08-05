@@ -1,22 +1,27 @@
 import { BusinessDto } from "@/api/dtos/BusinessDto";
 import appColors from "@/assets/colors";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import FallbackImage from "./FallbackImage";
 import { labelStyles } from "@/assets/styles";
+import { Link } from "@react-navigation/native";
 
 export default function businessItem(item: BusinessDto): React.JSX.Element {
     return (
-        <View
+        <TouchableHighlight
+            onPress={() => Linking.openURL(item.link)}
+            underlayColor={appColors.backgroundPrimary}
             style={styles.container}>
-            <FallbackImage
-                style={styles.logo}
-                defaultImageType='business'
-                imageUrl={item.imageUrl} />
-            <Text
-                style={[labelStyles.subtitle, styles.name]}>
-                    {item.name}
-            </Text>
-        </View>
+            <View>
+                <FallbackImage
+                    style={styles.logo}
+                    defaultImageType='business'
+                    imageUrl={item.imageUrl} />
+                <Text
+                    style={[labelStyles.subtitle, styles.name]}>
+                        {item.name}
+                </Text>
+            </View>
+        </TouchableHighlight>
     )
 }
 
