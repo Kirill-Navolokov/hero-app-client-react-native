@@ -1,6 +1,6 @@
 
 import { SQLiteInsertOnConflictDoUpdateConfig } from "drizzle-orm/sqlite-core";
-import { advices, faqs, units, wods } from "./schema";
+import { advices, businesses, categories, faqs, units, wods } from "./schema";
 import { sql } from "drizzle-orm";
 
 export function wodConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any> {
@@ -48,6 +48,27 @@ export function faqConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any>
         target: faqs.question,
         set: {
             answer: sql.raw(`excluded.answer`)
+        }
+    }
+}
+
+export function businessConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any> {
+    return {
+        target: businesses.id,
+        set: {
+            name: sql.raw(`excluded.name`),
+            link: sql.raw(`excluded.link`),
+            imageUrl: sql.raw(`excluded.imageUrl`),
+            categories: sql.raw(`excluded.categories`),
+        }
+    }
+}
+
+export function categoriesConflictResolver(): SQLiteInsertOnConflictDoUpdateConfig<any> {
+    return {
+        target: categories.name,
+        set: {
+            name: sql.raw(`excluded.name`),
         }
     }
 }
