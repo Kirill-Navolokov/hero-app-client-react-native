@@ -5,38 +5,67 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import appColors from "@/assets/colors";
 import { Image } from "react-native";
 import { tabImages } from "@/assets/images";
-import { useNavigation } from "expo-router";
+import { strings } from "@/assets/strings";
+import { UnitsScreen } from "./UnitsScreen";
+import { BusinessesScreen } from "./BusinessesScreen";
 
 const Tab = createBottomTabNavigator();
 
 export default function MainScreen() : React.JSX.Element {
-    const navigation = useNavigation();
     return (
         <Tab.Navigator
-            safeAreaInsets={{bottom:0}}
             screenOptions={({route}) => ({
-                tabBarInactiveTintColor: appColors.lightGray,
+                tabBarInactiveTintColor: appColors.cardBackground,
                 tabBarActiveTintColor: appColors.white,
-                tabBarActiveBackgroundColor: appColors.darkGray,
-                tabBarInactiveBackgroundColor: appColors.darkGray,
                 tabBarShowLabel: false,
                 tabBarIconStyle: {
                     marginTop:5
                 },
                 tabBarStyle: {
-                    height: 83,
+                    backgroundColor:appColors.backgroundPrimary,
+                    borderColor: appColors.cardBackground,
+                    borderTopWidth: 1
                 },
                 tabBarIcon: ({focused, color, size}) => {
+                    size = 30;
                     return <Image 
                         source={tabImages[route.name]}
                         style={{width: size, height: size}}
                         tintColor={color}/>
                 }
             })}>
-            <Tab.Screen name="tab_shield" component={() => WodsScreen(navigation)} options={{
-                headerShown: false
-            }}/>
-            <Tab.Screen name="tab_profile" component={ProfileScreen}/>
+            <Tab.Screen 
+                name="tab_shield"
+                component={WodsScreen}
+                options={{
+                    headerShown: false
+                }}/>
+            <Tab.Screen 
+                name="tab_units"
+                component={UnitsScreen}
+                options={{
+                    headerShown: false
+                }}/>
+            <Tab.Screen 
+                name="tab_businesses"
+                component={BusinessesScreen}
+                options={{
+                    headerShown: false
+                }}/>
+            <Tab.Screen 
+                name="tab_profile"
+                component={ProfileScreen}
+                options={{
+                    title: strings.profieTab,
+                    headerTitleStyle: {
+                        color: appColors.white,
+                        fontSize: 20,
+                        fontWeight: "bold"
+                    },
+                    headerStyle: {
+                        backgroundColor: appColors.backgroundPrimary
+                    }
+                }}/>
         </Tab.Navigator>
     );
 }

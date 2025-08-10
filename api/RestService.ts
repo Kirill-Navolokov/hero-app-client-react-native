@@ -1,43 +1,45 @@
+import { TYPES } from "@/ioc/TypesRegistrations";
 import { api } from "./ApiConstants";
 import { IRestService } from "./IRestService";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import { ISecureStorage } from "@/services/ISecureStorage";
+import { secretsNames } from "@/utils/appConstants";
+import axios, { AxiosInstance } from "axios";
 
 @injectable()
 export class RestService implements IRestService {
+    private readonly apiClient: AxiosInstance;
+    @inject(TYPES.SecureStorage) private secureStorage!: ISecureStorage;
+
+    constructor() {
+        this.apiClient = axios.create({
+            baseURL: api.baseUrl,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        });
+
+        // NOTE: app is public for now
+        // this.apiClient.interceptors.request.use(
+        //     async (config) => {
+        //         const token = await this.secureStorage.getSecret(secretsNames.authToken);
+        //         if(token)
+        //             config.headers.Authorization = `Bearer ${token}` 
+
+        //         return config;
+        //     },
+        //     (error) => Promise.reject(error)
+        // );
+    }
+
     async getData<T>(url: string): Promise<T> {
-        return new Promise<T>(resolve => {
-            var endpointUrl = api.baseUrl + url;
-            fetch(endpointUrl, )
-                //.then(response => response.json())
-                .then((x) => handleDates(x.json()) as Promise<T>)
-                .then(body => resolve(body))
-                .catch(error => console.log(error))
-        })
+        let resp = await this.apiClient.get<T>(url);
+        return resp.data;
+    }
+
+    async postData<T>(url: string, payload: any): Promise<T> {
+        let resp = await this.apiClient.post<T>(url, payload);
+        return resp.data;
     }
 }
-
-const handleDates = (data: unknown) => {
-    console.log("Handle date")
-    if (isIsoDateString(data)) {
-        console.log("isIsoDateString");
-        return new Date(data)
-    };
-    if (data === null || data === undefined || typeof data !== typeof Object){
-        console.log(typeof data)
-        return data;
-    }
-  
-    for (const [key, val] of Object.entries(data)) {
-      // @ts-expect-error this is a hack to make the type checker happy
-      if (isIsoDateString(val)) data[key] = parseISO(val);
-      else if (typeof val === "object") handleDates(val);
-    }
-  
-    return data
-  };
-
-  const ISODateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
-
-const isIsoDateString = (value: unknown): value is string => {
-  return typeof value === "string" && ISODateFormat.test(value);
-};

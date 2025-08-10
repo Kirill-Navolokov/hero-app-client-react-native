@@ -1,0 +1,26 @@
+export const strings = {
+    language: "Мова",
+    leaveFeedback: "Залишити відгук",
+    supportProject: "Підтримати проект",
+    faq: "ЧаПи",
+    advices: "Поради",
+    termsConditions: "Умови використання",
+    privacyPolicy: "Політика конфіденційності",
+    signout: "Вийти",
+    scheme: "Схема",
+    more: "Більше",
+    less: "Менше",
+    locale: "uk-UA",
+    profieTab: "Профіль",
+    ukrainian: "Українська",
+    kacapian: "російська",
+    seriouslyQuestion: "Серйозно?",
+    shouldWeAllowToCAcceptChoice: "Хіба схоже, що тут буде російська?",
+    fixMistake: "Виправити помилку",
+    getSweatOrDie: "Потій або помри ©OTOY",
+    close: "Закрити",
+    search: "Пошук",
+    categories: "Категорії",
+    oopsSomethingLost: "Упс, схоже, щось загубилось..."
+
+}
