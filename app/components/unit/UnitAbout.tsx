@@ -9,7 +9,7 @@ import { FlatList, Linking, Text, TouchableHighlight, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function UnitAbout({unit}:{unit: Unit}): React.JSX.Element {
-    var socialNetworks: SocialNetwork[] = JSON.parse(unit.socialNetworks);
+    let socialNetworks: SocialNetwork[] = JSON.parse(unit.socialNetworks);
     return (
         <View
             style={{marginBottom: useSafeAreaInsets().bottom}}>
@@ -45,7 +45,7 @@ const getSocialNetworkMapping = (type: SocialNetworkType) => {
 }
 
 function SocialNetworkItem(item: SocialNetwork): React.JSX.Element {
-    var mapping = getSocialNetworkMapping(item.type);
+    let mapping = getSocialNetworkMapping(item.type);
     return (
         <TouchableHighlight
             style={{

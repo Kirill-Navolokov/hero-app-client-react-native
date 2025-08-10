@@ -34,12 +34,12 @@ export class RestService implements IRestService {
     }
 
     async getData<T>(url: string): Promise<T> {
-        var resp = await this.apiClient.get<T>(url);
+        let resp = await this.apiClient.get<T>(url);
         return resp.data;
     }
 
     async postData<T>(url: string, payload: any): Promise<T> {
-        var resp = await this.apiClient.post<T>(url, payload);
+        let resp = await this.apiClient.post<T>(url, payload);
         return resp.data;
     }
 }

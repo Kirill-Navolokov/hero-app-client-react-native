@@ -9,7 +9,7 @@ export default function unitWorkoutListItem(
     workout: Workout,
     navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>
 ): React.JSX.Element {
-    var workoutName = workout.name != undefined
+    let workoutName = workout.name != undefined
         ? workout.name + " - " + workout.date.toLocaleDateString(strings.locale)
         : workout.date.toLocaleDateString(strings.locale);
     return (

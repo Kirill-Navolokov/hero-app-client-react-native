@@ -1,5 +1,5 @@
 import appColors from "@/assets/colors";
-import { labelStyles } from "@/assets/styles";
+import { defaultViewStyles, labelStyles } from "@/assets/styles";
 import { Faq } from "@/db/schema";
 import { iocContainer } from "@/ioc/inversify.config";
 import { TYPES } from "@/ioc/TypesRegistrations";
@@ -26,10 +26,7 @@ export default function FaqsScreen(): React.JSX.Element {
     useEffect(() => fetchFaqs(), []);
 
     return (
-        <View style={{
-            backgroundColor: appColors.backgroundPrimary,
-            flex:1
-        }}>
+        <View style={defaultViewStyles.container}>
             { 
                 isLoading
                 ? <LoadingIndicator/>

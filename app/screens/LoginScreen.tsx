@@ -19,12 +19,12 @@ export default function LoginScreen(): React.JSX.Element {
     const [isSignInEnabled, setSignInEnabled] = useState(false);
     const [isPasswordHidden, setPasswordHidden] = useState(false);
     const updateSignInEnabled = (email: string, password: string) => {
-        var isEnabled = email.length > 0 && password.length > 0;
+        let isEnabled = email.length > 0 && password.length > 0;
         setSignInEnabled(isEnabled);
     }
 
     const { signIn } = React.useContext(AuthContext)!;
-    var safeAreaInsets = useSafeAreaInsets();
+    const safeAreaInsets = useSafeAreaInsets();
     return (
         <View
             style={styles.container}>

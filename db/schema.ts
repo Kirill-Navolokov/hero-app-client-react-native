@@ -37,8 +37,25 @@ export const faqs = sqliteTable('faqs', {
     answer: text().notNull()
 });
 
+export const businesses = sqliteTable('businesses', {
+    id: text().primaryKey().notNull(),
+    name: text().notNull(),
+    link: text().notNull(),
+    imageUrl: text().notNull(),
+    categories: text('categories', { mode: 'json'})
+        .notNull()
+        .$type<string[]>()
+        .default(sql`(json_array())`)
+});
+
+export const categories = sqliteTable('categories', {
+    name: text().primaryKey().notNull()
+});
+
 // Export Task to use as an interface in your app
 export type Wod = typeof wods.$inferSelect;
 export type Unit = typeof units.$inferSelect;
 export type Advice = typeof advices.$inferSelect;
 export type Faq = typeof faqs.$inferSelect;
+export type Business = typeof businesses.$inferSelect;
+export type Category = typeof categories.$inferSelect;

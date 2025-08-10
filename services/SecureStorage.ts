@@ -11,12 +11,12 @@ export class SecureStorage implements ISecureStorage {
     }
 
     async getSecret(name: string): Promise<string | null> {
-        var secret = await AsyncStorage.getItem(name);
+        let secret = await AsyncStorage.getItem(name);
         return secret;
     }
 
     async getObject<T>(name: string): Promise<T | null> {
-        var stringItem = await AsyncStorage.getItem(name);
+        let stringItem = await AsyncStorage.getItem(name);
         if(stringItem == null)
             return null;
 
@@ -32,7 +32,7 @@ export class SecureStorage implements ISecureStorage {
     }
 
     async verifyCacheLastSyncs(): Promise<void> {
-        var cacheLastSyncs = await this.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs);
+        let cacheLastSyncs = await this.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs);
         if(cacheLastSyncs == null)
             await this.setObject(secretsNames.cacheLastSyncs, {})
     }

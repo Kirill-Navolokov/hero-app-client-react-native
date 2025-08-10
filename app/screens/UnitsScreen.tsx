@@ -9,8 +9,10 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import appColors from "@/assets/colors";
 import { UnitListItem } from "../components/unit/UnitItem";
 import { Unit } from "@/db/schema";
-import { labelStyles } from "@/assets/styles";
+import { defaultViewStyles, labelStyles } from "@/assets/styles";
 import { SectionData } from "@/utils/SectionData";
+import ListLoadingEmptyStateView from "../components/ListLoadingEmptyStateView";
+import { strings } from "@/assets/strings";
 
 export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
@@ -18,6 +20,8 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const [units, setUnits] = useState<SectionData<Unit>[]>([])
     const [communities, setCommunities] = useState<SectionData<Unit>[]>([])
     const [isRefresing, setRefreshing] = useState(false);
+    const [isInitialLoading, setIsInitialLoading] = useState(false);
+    const [isInitialyLoaded, setIsInitialLoaded] = useState(false);
     const ALPHABET = 'АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ'.split('');
     const alphabaetSet = new Set<string>(ALPHABET);
     const restSection = "#";
@@ -25,17 +29,26 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const sectionListRef = useRef<SectionList>(null);
 
     const fetchUnits = (forced: boolean) => {
+        if(!isInitialyLoaded)
+            setIsInitialLoading(true);
+
         unitsService.getUnits(forced)
             .then(result => {
-                var groupedUnits = getGroupedUnits(
+                let groupedUnits = getGroupedUnits(
                     result[0], alphabaetSet, restSection);
-                var groupedCommunities = getGroupedUnits(
+                let groupedCommunities = getGroupedUnits(
                     result[1], alphabaetSet, restSection);
-                var sortedSections = getSortedGroupedSections(
+                let sortedSections = getSortedGroupedSections(
                     groupedUnits, groupedCommunities, alphabaetSet, restSection);
 
                 setUnits(sortedSections[0]);
                 setCommunities(sortedSections[1]);
+            })
+            .finally(() => {
+                if(!isInitialyLoaded) {
+                    setIsInitialLoaded(true);
+                    setIsInitialLoading(false);
+                }
             });
     };
     
@@ -60,11 +73,9 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
 
     return (
         <View
-            style={{
-                paddingTop: safeArea.top,
-                backgroundColor: appColors.backgroundPrimary,
-                flex:1
-            }}>
+            style={[defaultViewStyles.container, {
+                paddingTop: safeArea.top
+            }]}>
             <SegmentedControl
                 values={['Підрозділи','Спільноти']}
                 selectedIndex={selectedIndex}
@@ -72,6 +83,9 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
                 fontStyle={styles.inactiveSegmentTitle}
                 onChange={(event) => {
                     setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+                }}
+                style={{
+                    marginHorizontal: 10
                 }}/>
             <View
                 style={{ flex: 1, flexDirection: 'row' }}>
@@ -80,8 +94,10 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
                     sections={selectedIndex == 0 ? units : communities}
                     keyExtractor={(item:Unit, index:number) => item.name + index}
                     renderItem={({item}) => UnitListItem(item, navigation)}
+                    contentContainerStyle={{
+                        flexGrow: 1
+                    }}
                     refreshControl={<RefreshControl
-                        progressViewOffset={safeArea.top}
                         refreshing={isRefresing}
                         onRefresh={onRefresh}
                         tintColor={appColors.white}/>}
@@ -90,6 +106,11 @@ export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
                             <Text style={[labelStyles.caption, {fontWeight:"bold"}]}>{title}</Text>
                         </View>
                     )}
+                    ListEmptyComponent={
+                        <ListLoadingEmptyStateView
+                            isLoading={isInitialLoading}
+                            emptyText={strings.oopsSomethingLost}/>
+                    }
                     indicatorStyle="white"
                     style={{marginTop: 20}}
                     stickySectionHeadersEnabled/>
@@ -111,9 +132,9 @@ function getGroupedUnits(
     alphabaetSet: Set<string>,
     restSection: string
 ): Record<string, Unit[]> {
-    var groupedUnits = units.reduce<Record<string, Unit[]>>((acc, item) => {
+    let groupedUnits = units.reduce<Record<string, Unit[]>>((acc, item) => {
         const letter = item.name[0].toUpperCase();
-        var groupHeader = alphabaetSet.has(letter) ? letter : restSection;
+        let groupHeader = alphabaetSet.has(letter) ? letter : restSection;
         if (!acc[groupHeader]) 
             acc[groupHeader] = [];
             acc[groupHeader].push(item);
@@ -130,9 +151,9 @@ function getSortedGroupedSections(
     alphabaetSet: Set<string>,
     restSection: string
 ): [Array<SectionData<Unit>>, Array<SectionData<Unit>>] {
-    var sortedUnitsSections = Array<SectionData<Unit>>();
-    var sortedCommunitiesSections = Array<SectionData<Unit>>();
-    for(var c of alphabaetSet) {
+    let sortedUnitsSections = Array<SectionData<Unit>>();
+    let sortedCommunitiesSections = Array<SectionData<Unit>>();
+    for(let c of alphabaetSet) {
         if(groupedUnits[c])
             sortedUnitsSections.push({
                 title: c,

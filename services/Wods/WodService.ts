@@ -18,6 +18,7 @@ import Fuse from 'fuse.js';
 @injectable()
 export class WodService implements IWodService {
     private readonly wodHonorshipMappings: {[num: number]: WodHonorship};
+    private readonly wodsFuse: Fuse<Wod>;
 
     @inject(TYPES.SecureStorage) private secureStorage!: ISecureStorage;
     @inject(TYPES.RestService) private restService!: IRestService;
@@ -29,26 +30,26 @@ export class WodService implements IWodService {
             1: WodHonorship.memorial,
             2: WodHonorship.unit
         }
-    }
 
-    async searchByName(partOfName: string): Promise<Array<Wod>> {
-        const allWods = await this.dbConection.db.select().from(wods);
-        const fuse = new Fuse<Wod>(allWods, {
+        this.wodsFuse = new Fuse<Wod>(Array<Wod>(), {
             keys: ['name'],
             threshold: 0.4, // adjust for stricter or looser matching
             ignoreLocation: true,
             includeScore: true,
         });
-        const results = fuse.search(partOfName);
+    }
 
-        return results.map(r => r.item);
+    async searchByName(partOfName: string): Promise<Array<Wod>> {
+        const matches = this.wodsFuse.search(partOfName);
+
+        return matches.map(r => r.item);
     }
 
     async getWods(forced: boolean): Promise<Array<Wod>> {
-        var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
+        let cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(forced || shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync)) {
             console.log("syncing wods");
-            var dtos = await this.restService.getData<Array<WodDto>>(api.wods);
+            let dtos = await this.restService.getData<Array<WodDto>>(api.wods);
             await this.dbConection.db.insert(wods).values(dtos.map(item => this.mapWod(item)))
                 .onConflictDoUpdate(wodConflictResolver());
 
@@ -56,10 +57,11 @@ export class WodService implements IWodService {
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        var wodsList  = await this.dbConection.db.select().from(wods)
+        let wodsList  = await this.dbConection.db.select().from(wods)
             .orderBy(asc(
                 sql`strftime('%m-%d', datetime(${wods.executionDate}, 'unixepoch'))`
             ));
+        this.wodsFuse.setCollection(wodsList);
 
         return wodsList;
     }

@@ -32,3 +32,11 @@ export const labelStyles = StyleSheet.create({
         fontSize: 14,
     }
 })
+
+export const defaultViewStyles = StyleSheet.create({
+    container: {
+        flexDirection: "column",
+        flexGrow: 1,
+        backgroundColor: appColors.backgroundPrimary
+    }
+})

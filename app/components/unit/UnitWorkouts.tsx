@@ -15,7 +15,7 @@ import { Unit } from "@/db/schema";
 export default function UnitWorkouts(
     {unit,navigation}:
     {unit: Unit, navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>}): React.JSX.Element {
-    var unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
+    let unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
 
     const [workouts, setWorkouts] = useState(Array<Workout>)
     const [isInitialLoading, setIsInitialLoading] = useState(false);

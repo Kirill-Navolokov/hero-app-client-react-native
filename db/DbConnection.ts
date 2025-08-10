@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
-import { advices, faqs, units, wods } from "./schema";
+import { advices, businesses, categories, faqs, units, wods } from "./schema";
 
 export class DbConnection {
     private initialized: boolean = false;
@@ -25,7 +25,9 @@ export class DbConnection {
             this.db.delete(wods),
             this.db.delete(units),
             this.db.delete(advices),
-            this.db.delete(faqs)
+            this.db.delete(faqs),
+            this.db.delete(businesses),
+            this.db.delete(categories)
         ]);
     }
 }

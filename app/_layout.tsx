@@ -64,13 +64,13 @@ export default function App() {
             isSignout: false,
             isLoggedIn: false,
         });
-    var authService = iocContainer.get<IAuthService>(TYPES.AuthService);
+    let authService = iocContainer.get<IAuthService>(TYPES.AuthService);
 
     useEffect(() => {
         // Fetch the token from storage then navigate to our appropriate place
         const bootstrapAsync = async () => {
-            var isTokensValid = await authService.verifyTokens();
-            var secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
+            let isTokensValid = await authService.verifyTokens();
+            let secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
 
             await secureStorage.verifyCacheLastSyncs();
 
@@ -88,7 +88,7 @@ export default function App() {
         () => ({
             googleSignIn: async () => {
                 
-                var isSignedId = await authService.googleSignIn();
+                let isSignedId = await authService.googleSignIn();
 
                 if(isSignedId)
                     dispatch({ type: 'SIGN_IN', loggedIn: true });
@@ -119,7 +119,7 @@ export default function App() {
     const expoDb = openDatabaseSync("hero_book");
     const db = drizzle(expoDb);
     const { success, error } = useMigrations(db, migrations);
-    var dbConnection = iocContainer.get<DbConnection>(TYPES.DbConnection);
+    let dbConnection = iocContainer.get<DbConnection>(TYPES.DbConnection);
     dbConnection.init(db);
 
     return (
