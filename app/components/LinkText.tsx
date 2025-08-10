@@ -1,4 +1,5 @@
-import { Linking, StyleProp, StyleSheet, Text, TextStyle } from "react-native";
+import { openUrlModally } from "@/utils/helperFunctions";
+import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 const urlRegex = /(https?:\/\/[^\s]+)/g;
 
@@ -16,7 +17,7 @@ export default function LinkText(
                         <Text
                             key={index}
                             style={[textStyle, styles.link]}
-                            onPress={() => Linking.openURL(part)}>
+                            onPress={async() => await openUrlModally(part)}>
                             {part}
                         </Text>
                     );

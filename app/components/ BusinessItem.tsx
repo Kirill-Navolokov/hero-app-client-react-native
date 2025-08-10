@@ -1,14 +1,14 @@
 import { BusinessDto } from "@/api/dtos/BusinessDto";
 import appColors from "@/assets/colors";
-import { Linking, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import FallbackImage from "./FallbackImage";
 import { labelStyles } from "@/assets/styles";
-import { Link } from "@react-navigation/native";
+import { openUrlModally } from "@/utils/helperFunctions";
 
 export default function businessItem(item: BusinessDto): React.JSX.Element {
     return (
         <TouchableHighlight
-            onPress={() => Linking.openURL(item.link)}
+            onPress={async () => await openUrlModally(item.link)}
             underlayColor={appColors.backgroundPrimary}
             style={styles.container}>
             <View>
