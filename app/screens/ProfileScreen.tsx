@@ -1,22 +1,16 @@
 import appColors from "@/assets/colors";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { ProfileOption } from "../components/ProfileOption";
 import { strings } from "@/assets/strings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ProfileOpt } from "@/enums/ProfileOpt";
 import { ProfileNavigationProp } from "@/navigation-types/ProfileNavigationParams";
-import { TYPES } from "@/ioc/TypesRegistrations";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AuthContext } from "../_layout";
-import { iocContainer } from "@/ioc/inversify.config";
-import { IPreferencesService } from "@/services/Preferences/IPreferencesService";
-import { UserInfo } from "@/models/UserInfo";
-import { labelStyles } from "@/assets/styles";
 
 export default function ProfileScreen(
     {navigation}:{navigation: ProfileNavigationProp}) : React.JSX.Element {
-    var safeArea = useSafeAreaInsets();
-    const [userInfo, setUserInfo] = useState<UserInfo>();
+    const safeArea = useSafeAreaInsets();
     const { signOut } = React.useContext(AuthContext)!;
 
     const onOptionSelected = async (type: ProfileOpt) => {
@@ -30,10 +24,6 @@ export default function ProfileScreen(
             await signOut();
         }
     }
-    useEffect(() => {
-        var preferencesService = iocContainer.get<IPreferencesService>(TYPES.PreferencesService);
-        preferencesService.userInfo().then(result => setUserInfo(result));
-    })
 
     return (
         <ScrollView
@@ -44,9 +34,6 @@ export default function ProfileScreen(
             style={{
                 backgroundColor: appColors.backgroundPrimary,
             }}>
-            <Text
-                style={[labelStyles.title, styles.userName]}
-                >{ !userInfo?.username ? userInfo?.email : userInfo.username}</Text>
             <ProfileOption
                 name={strings.language}
                 iconName="language"

@@ -18,10 +18,10 @@ export class SupportService implements ISupportService {
     @inject(TYPES.DbConnection) private readonly dbConection!: DbConnection;
 
     async getAdvices(): Promise<Array<Advice>> {
-        var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
+        let cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(shouldSync(cacheTtls.advices, cacheLastSyncs.advicesLastSync)) {
             console.log("syncing advices");
-            var dtos = await this.restService.getData<Array<Advice>>(api.advices);
+            let dtos = await this.restService.getData<Array<Advice>>(api.advices);
             await this.dbConection.db.insert(advices).values(dtos)
                 .onConflictDoUpdate(adviceConflictResolver());
 
@@ -29,16 +29,16 @@ export class SupportService implements ISupportService {
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        var advicesList  = await this.dbConection.db.select().from(advices);
+        let advicesList  = await this.dbConection.db.select().from(advices);
 
         return advicesList;
     }
 
     async getFaqs(): Promise<Array<Faq>> {
-        var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
+        let cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(shouldSync(cacheTtls.faqs, cacheLastSyncs.faqsLastSync)) {
             console.log("syncing faqs");
-            var dtos = await this.restService.getData<Array<Faq>>(api.faqs);
+            let dtos = await this.restService.getData<Array<Faq>>(api.faqs);
             await this.dbConection.db.insert(faqs).values(dtos)
                 .onConflictDoUpdate(faqConflictResolver());
 
@@ -46,7 +46,7 @@ export class SupportService implements ISupportService {
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        var faqsList  = await this.dbConection.db.select().from(faqs);
+        let faqsList  = await this.dbConection.db.select().from(faqs);
 
         return faqsList;
     }

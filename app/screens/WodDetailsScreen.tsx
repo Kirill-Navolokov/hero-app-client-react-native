@@ -27,8 +27,8 @@ export default function WodDetailsScreen(
             return;
 
         setIsInitialized(true);
-        var currentLines = event.nativeEvent.lines.length
-        var canExpand = currentLines > EXPANDABLE_TEXT_MAX_LINES;
+        let currentLines = event.nativeEvent.lines.length
+        let canExpand = currentLines > EXPANDABLE_TEXT_MAX_LINES;
 
         setIsExpandable(canExpand);
 

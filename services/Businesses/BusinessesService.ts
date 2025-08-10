@@ -71,6 +71,7 @@ export class BusinessesService implements IBusinessesService {
             cacheLastSyncs.businessesLastSync = Date.now();
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
+
         let businessesList = await this.dbConnection.db.select().from(businesses);
         let categoriesList = await this.dbConnection.db.select().from(categories);
         let resp = {
@@ -88,7 +89,7 @@ export class BusinessesService implements IBusinessesService {
     }
 
     private searchByCategories(categories: Array<string>): Map<string, BusinessDto> {
-        var matchMap = new Map<string, BusinessDto>();
+        let matchMap = new Map<string, BusinessDto>();
         categories.flatMap(c => this.businessesFuse.search({categories:c}))
             .forEach(fuseResult => {
                 if(!matchMap.has(fuseResult.item.name))
@@ -109,7 +110,7 @@ export class BusinessesService implements IBusinessesService {
         } else {
             let businesses = Array<BusinessDto>();
             matchedNames.forEach(n => {
-                var business = matchedByCategories.get(n.item);
+                let business = matchedByCategories.get(n.item);
                 if(business != undefined)
                     businesses.push(business);
             });

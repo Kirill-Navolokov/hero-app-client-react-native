@@ -30,7 +30,7 @@ export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationP
         if(!isInitialyLoaded)
             setIsInitialLoading(true);
 
-        businessesService.getBusinesses()
+        businessesService.getBusinesses(forced)
             .then(response => {
                 setCategories(response.availableCategories.map(c => {
                     return {

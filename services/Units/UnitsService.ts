@@ -33,10 +33,10 @@ export class UnitsService implements IUnitsService {
     }
 
     async getUnits(forced: boolean): Promise<[Array<Unit>, Array<Unit>]> {
-        var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
+        let cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(forced || shouldSync(cacheTtls.units, cacheLastSyncs.unitsLastSync)) {
             console.log('syncing units');
-            var dtos = await this.restService.getData<Array<UnitDto>>(api.units);
+            let dtos = await this.restService.getData<Array<UnitDto>>(api.units);
             await this.dbConection.db.insert(units).values(dtos.map(item => this.mapUnit(item)))
                 .onConflictDoUpdate(unitConflictResolver());
 
@@ -44,10 +44,10 @@ export class UnitsService implements IUnitsService {
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        var unitsList  = await this.dbConection.db.select().from(units)
+        let unitsList  = await this.dbConection.db.select().from(units)
             .where(eq(units.type, UnitType.unit))
             .orderBy(units.name);
-        var communitiesList  = await this.dbConection.db.select().from(units)
+        let communitiesList  = await this.dbConection.db.select().from(units)
             .where(eq(units.type, UnitType.community))
             .orderBy(units.name);
 
@@ -55,9 +55,9 @@ export class UnitsService implements IUnitsService {
     }
 
     async getUnitWorkouts(unitId: string): Promise<Array<Workout>> {
-        var dtos = await this.restService.getData<Array<WorkoutDto>>(
+        let dtos = await this.restService.getData<Array<WorkoutDto>>(
             `${api.units}/${unitId}${api.wods}`);
-        var workouts = dtos.map(this.mapWorkout);
+        let workouts = dtos.map(this.mapWorkout);
 
         return workouts;
     }

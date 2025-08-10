@@ -1,6 +1,7 @@
 import appColors from "@/assets/colors"
 import { labelStyles } from "@/assets/styles"
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native"
+import LoadingIndicator from "./LoadingIndicator"
 
 export default function ListLoadingEmptyStateView(
     {isLoading, emptyText} :
@@ -8,11 +9,7 @@ export default function ListLoadingEmptyStateView(
 ): React.JSX.Element {
     return (
          isLoading
-        ? <View 
-            style={styles.emptyListContainer}>
-            <ActivityIndicator size={"large"} color={appColors.blue}/>
-            <ActivityIndicator size={"large"} color={appColors.yellow}/>
-        </View>
+        ? <LoadingIndicator/>
         : <View
             style={styles.emptyListContainer}>
             <Image

@@ -21,12 +21,12 @@ export class AuthService implements IAuthService {
     }
 
     async signIn(email: string, password: string): Promise<void> {
-        var loginRequest: Login = {
+        let loginRequest: Login = {
             email: email,
             password: password
         };
 
-        var loginResponse = await this.restService.postData<LoginResponse>(api.login, loginRequest);
+        let loginResponse = await this.restService.postData<LoginResponse>(api.login, loginRequest);
         await Promise.all([
             this.secureStorage.setSecret(secretsNames.authToken, loginResponse.tokens.accessToken),
             this.secureStorage.setSecret(secretsNames.refreshToken, loginResponse.tokens.refreshToken),
@@ -94,8 +94,8 @@ export class AuthService implements IAuthService {
             // NOTE: app is public for now
             return true;
 
-            var accessToken = await this.secureStorage.getSecret(secretsNames.authToken);
-            var refreshToken = await this.secureStorage.getSecret(secretsNames.refreshToken);
+            let accessToken = await this.secureStorage.getSecret(secretsNames.authToken);
+            let refreshToken = await this.secureStorage.getSecret(secretsNames.refreshToken);
 
             return accessToken != null && refreshToken != null;
         } catch(error) {

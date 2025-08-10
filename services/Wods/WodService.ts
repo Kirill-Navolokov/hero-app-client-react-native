@@ -46,10 +46,10 @@ export class WodService implements IWodService {
     }
 
     async getWods(forced: boolean): Promise<Array<Wod>> {
-        var cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
+        let cacheLastSyncs = (await this.secureStorage.getObject<CacheLastSyncs>(secretsNames.cacheLastSyncs))!;
         if(forced || shouldSync(cacheTtls.wods, cacheLastSyncs.wodsLastSync)) {
             console.log("syncing wods");
-            var dtos = await this.restService.getData<Array<WodDto>>(api.wods);
+            let dtos = await this.restService.getData<Array<WodDto>>(api.wods);
             await this.dbConection.db.insert(wods).values(dtos.map(item => this.mapWod(item)))
                 .onConflictDoUpdate(wodConflictResolver());
 
@@ -57,7 +57,7 @@ export class WodService implements IWodService {
             await this.secureStorage.setObject(secretsNames.cacheLastSyncs, cacheLastSyncs);
         }
 
-        var wodsList  = await this.dbConection.db.select().from(wods)
+        let wodsList  = await this.dbConection.db.select().from(wods)
             .orderBy(asc(
                 sql`strftime('%m-%d', datetime(${wods.executionDate}, 'unixepoch'))`
             ));
