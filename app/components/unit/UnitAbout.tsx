@@ -6,7 +6,7 @@ import { SocialNetwork } from "@/models/SocialNetwork";
 import { openUrlModally } from "@/utils/helperFunctions";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, Linking, Text, TouchableHighlight, View } from "react-native";
+import { FlatList, Text, TouchableHighlight, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function UnitAbout({unit}:{unit: Unit}): React.JSX.Element {
