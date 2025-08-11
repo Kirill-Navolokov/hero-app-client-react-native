@@ -15,7 +15,7 @@ export const strings = {
     ukrainian: "Українська",
     kacapian: "російська",
     seriouslyQuestion: "Серйозно?",
-    shouldWeAllowToCAcceptChoice: "Хіба схоже, що тут буде російська?",
+    noRussianMessage: "Хіба схоже, що тут буде російська?",
     fixMistake: "Виправити помилку",
     getSweatOrDie: "Потій або помри ©OTOY",
     close: "Закрити",

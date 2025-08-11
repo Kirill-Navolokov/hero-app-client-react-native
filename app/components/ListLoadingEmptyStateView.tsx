@@ -1,6 +1,6 @@
 import appColors from "@/assets/colors"
 import { labelStyles } from "@/assets/styles"
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native"
+import { Image, StyleSheet, Text, View } from "react-native"
 import LoadingIndicator from "./LoadingIndicator"
 
 export default function ListLoadingEmptyStateView(

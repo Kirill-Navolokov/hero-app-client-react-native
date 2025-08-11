@@ -4,7 +4,8 @@ import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } f
 
 export default function AppBlueButton(
     {title, onPress, containerStyle, labelStyle}:
-    {title: string, onPress: () => void, containerStyle?: StyleProp<ViewStyle>, labelStyle?: StyleProp<TextStyle>}) : React.JSX.Element {
+    {title: string, onPress: () => void, containerStyle?: StyleProp<ViewStyle>, labelStyle?: StyleProp<TextStyle>}
+) : React.JSX.Element {
     return (
         <TouchableOpacity
             onPress={onPress}

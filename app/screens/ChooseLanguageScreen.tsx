@@ -19,10 +19,10 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
                     <Ionicons
                         name="rocket-outline"
                         size={24} 
-                        color={appColors.lightGray}
+                        color={appColors.white}
                         />
                     <Text style={[
-                        labelStyles.regular,
+                        labelStyles.caption,
                         {
                             color: appColors.white,
                             fontWeight: "bold"
@@ -40,7 +40,7 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
             <TouchableHighlight
                 onPress={() => {Alert.alert(
                     strings.seriouslyQuestion,
-                    strings.shouldWeAllowToCAcceptChoice,
+                    strings.noRussianMessage,
                     [{
                         text: strings.fixMistake,
                         style: "cancel"
@@ -54,7 +54,7 @@ export default function ChooseLanguageScreen() : React.JSX.Element {
                         name="thumbs-down-outline"
                         size={24}
                         color={appColors.white}/>
-                    <Text style={labelStyles.regular}>{strings.kacapian}</Text>
+                    <Text style={labelStyles.caption}>{strings.kacapian}</Text>
                 </View>
             </TouchableHighlight>
             <Separator/>
