@@ -4,7 +4,7 @@ import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { useState } from "react";
 import { Dimensions, GestureResponderEvent, Image, NativeSyntheticEvent, ScrollView, StyleSheet, Text, TextLayoutEventData, TouchableHighlight, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Separator } from "../components/Separator";
+import Separator from "../components/Separator";
 import { labelStyles } from "@/assets/styles";
 import { strings } from "@/assets/strings";
 import FallbackImage from "../components/FallbackImage";

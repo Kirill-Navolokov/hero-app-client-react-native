@@ -15,7 +15,8 @@ export default function UnitDetailsScreen(
 ) : React.JSX.Element {
     const unit = route.params.unit;
     
-    const {width} = Dimensions.get("window");
+    //const {width} = Dimensions.get("window");
+    const width = 200;
     return (
         <Tabs.Container
             containerStyle={styles.container}

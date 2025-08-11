@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, TouchableHighlight, View, ViewStyle } from
 import appColors from "@/assets/colors";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export function ProfileOption(
+export default function ProfileOption(
     {name, iconName, onSelected, viewStyle}:
     {name: string, iconName: string, onSelected: () => void, viewStyle?: StyleProp<ViewStyle>}
 ) : React.JSX.Element {

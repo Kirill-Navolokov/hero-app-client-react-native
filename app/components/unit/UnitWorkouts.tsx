@@ -9,7 +9,7 @@ import { Image, StyleSheet, Text, View, ActivityIndicator, RefreshControl, Modal
 import { Tabs } from "react-native-collapsible-tab-view";
 import unitWorkoutListItem from "./UnitWorkoutItem";
 import { NavigationProp } from "@react-navigation/native";
-import { Separator } from "../Separator";
+import Separator from "../Separator";
 import { Unit } from "@/db/schema";
 
 export default function UnitWorkouts(

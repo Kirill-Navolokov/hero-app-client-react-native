@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './screens/MainScreen';
 import WodDetailsScreen from './screens/WodDetailsScreen';
 import { WodDetailsNavigationProp, WodDetailsRouteProp } from '@/navigation-types/WodsStackNavigationParams';
-import { createContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useState } from 'react';
 import ChooseLanguageScreen from './screens/ChooseLanguageScreen';
 import { strings } from '@/assets/strings';
 import appColors from '@/assets/colors';
@@ -10,19 +10,14 @@ import LoginScreen from './screens/LoginScreen';
 import { iocContainer } from '@/ioc/inversify.config';
 import { ISecureStorage } from '@/services/ISecureStorage';
 import { TYPES } from '@/ioc/TypesRegistrations';
-import { secretsNames } from '@/utils/appConstants';
 import { IAuthService } from '@/services/Auth/IAuthService';
-import { AuthContextType } from './AuthContextType';
+import { AuthContext } from '../utils/AuthContextType';
 import SplashScreen from './screens/SplashScreen';
 import UnitDetailsScreen from './screens/UnitDetailsScreen';
 import { UnitDetailsNavigationProp, UnitDetailsRouteProp } from '@/navigation-types/UnitsStackNavigationParams';
-import { Button, StyleSheet, View } from 'react-native';
+import { Button } from 'react-native';
 import { labelStyles } from '@/assets/styles';
 import UnitWorkoutDetails from './components/unit/UnitWorkoutDetails';
-import { CacheLastSyncs } from '@/utils/cacheExpirations';
-
-import { Suspense } from 'react';
-import { ActivityIndicator } from 'react-native';
 import { SQLiteProvider, openDatabaseSync } from 'expo-sqlite';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
@@ -33,7 +28,6 @@ import AdvicesScreen from './screens/AdvicesScreen';
 import FaqsScreen from './screens/FaqsScreen';
 
 const RootStack = createNativeStackNavigator();
-export const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function App() {
     const [state, dispatch] = useReducer(

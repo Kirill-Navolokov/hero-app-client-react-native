@@ -8,6 +8,7 @@ export default function LinkText(
     {text: string, textStyle?: StyleProp<TextStyle>}
 ): React.JSX.Element {
     const parts = text.split(urlRegex);
+    console.log(parts);
 
     return (
         <Text style={textStyle}>
@@ -29,7 +30,7 @@ export default function LinkText(
 }
 
 const styles = StyleSheet.create({
-  link: {
-    color: "#4DA8DA",
-  },
+    link: {
+        color: "#4DA8DA",
+    }
 });

@@ -2,7 +2,7 @@ import appColors from "@/assets/colors";
 import { labelStyles } from "@/assets/styles";
 import React from "react";
 import { Alert, ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
-import { Separator } from "../components/Separator";
+import Separator from "../components/Separator";
 import { Ionicons } from "@expo/vector-icons";
 import { strings } from "@/assets/strings";
 

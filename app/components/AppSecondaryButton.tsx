@@ -1,6 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-export function AppSecondaryButton(): React.JSX.Element {
+export default function AppSecondaryButton(): React.JSX.Element {
     return (
         <TouchableOpacity>
             <Text></Text>

@@ -1,12 +1,13 @@
 import appColors from "@/assets/colors";
 import { ScrollView, StyleSheet } from "react-native";
-import { ProfileOption } from "../components/ProfileOption";
+import ProfileOption from "../components/ProfileOption";
 import { strings } from "@/assets/strings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ProfileOpt } from "@/enums/ProfileOpt";
 import { ProfileNavigationProp } from "@/navigation-types/ProfileNavigationParams";
 import React from "react";
-import { AuthContext } from "../_layout";
+import { openUrlModally } from "@/utils/helperFunctions";
+import { AuthContext } from "../../utils/AuthContextType";
 
 export default function ProfileScreen(
     {navigation}:{navigation: ProfileNavigationProp}) : React.JSX.Element {
@@ -20,6 +21,8 @@ export default function ProfileScreen(
             navigation.navigate("FaqsScreen");
         }  else if(type == ProfileOpt.advices) {
             navigation.navigate("AdvicesScreen");
+        }  else if(type == ProfileOpt.privacyPolicy) {
+            await openUrlModally('https://github.com/Kirill-Navolokov/hero-app-client-react-native/blob/main/PRIVACY_POLICY.md');
         } else if(type == ProfileOpt.signout) {
             await signOut();
         }
@@ -42,10 +45,10 @@ export default function ProfileScreen(
                 name={strings.leaveFeedback}
                 iconName="feedback"
                 onSelected={() => onOptionSelected(ProfileOpt.feedback)} />
-            <ProfileOption
+            {/* <ProfileOption
                 name={strings.supportProject}
                 iconName="support"
-                onSelected={() => onOptionSelected(ProfileOpt.supportProject)} />
+                onSelected={() => onOptionSelected(ProfileOpt.supportProject)} /> */}
             <ProfileOption
                 name={strings.faq}
                 iconName="question-answer"
@@ -55,10 +58,10 @@ export default function ProfileScreen(
                 name={strings.advices}
                 iconName="info"
                 onSelected={() => onOptionSelected(ProfileOpt.advices)}/>
-            <ProfileOption
+            {/* <ProfileOption
                 name={strings.termsConditions}
                 iconName="handshake"
-                onSelected={() => onOptionSelected(ProfileOpt.termsConditions)} />
+                onSelected={() => onOptionSelected(ProfileOpt.termsConditions)} /> */}
             <ProfileOption
                 name={strings.privacyPolicy}
                 iconName="privacy-tip"

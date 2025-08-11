@@ -7,14 +7,14 @@ import { RefreshControl, StyleSheet, Text, View, SectionList, TouchableOpacity }
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import appColors from "@/assets/colors";
-import { UnitListItem } from "../components/unit/UnitItem";
+import UnitListItem from "../components/unit/UnitItem";
 import { Unit } from "@/db/schema";
 import { defaultViewStyles, labelStyles } from "@/assets/styles";
 import { SectionData } from "@/utils/SectionData";
 import ListLoadingEmptyStateView from "../components/ListLoadingEmptyStateView";
 import { strings } from "@/assets/strings";
 
-export function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
+export default function UnitsScreen({navigation}:{navigation: UnitsNavigationProp}) {
     const unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [units, setUnits] = useState<SectionData<Unit>[]>([])

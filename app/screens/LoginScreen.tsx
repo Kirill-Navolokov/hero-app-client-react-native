@@ -1,11 +1,10 @@
 import appColors from "@/assets/colors";
 import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { AppBlueButton } from "../components/AppBlueButton";
 import { useState } from "react";
 import React from "react";
-import { AuthContext } from "../_layout";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AuthContext } from "../../utils/AuthContextType";
 
 export default function LoginScreen(): React.JSX.Element {
     // useEffect(() => {
