@@ -2,10 +2,10 @@ import appColors from "@/assets/colors";
 import { labelStyles } from "@/assets/styles";
 import { Unit } from "@/db/schema";
 import { UnitsNavigationProp } from "@/navigation-types/UnitsStackNavigationParams";
-import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import FallbackImage from "../FallbackImage";
 
-export function UnitListItem(
+export default function UnitListItem(
     unit: Unit,
     navigation: UnitsNavigationProp
 ) {

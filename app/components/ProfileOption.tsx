@@ -1,11 +1,11 @@
 import React from "react";
-import { StyleProp, StyleSheet, Text, TouchableHighlight, View, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, Text, TextStyle, TouchableHighlight, View, ViewStyle } from "react-native";
 import appColors from "@/assets/colors";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export function ProfileOption(
-    {name, iconName, onSelected, viewStyle}:
-    {name: string, iconName: string, onSelected: () => void, viewStyle?: StyleProp<ViewStyle>}
+export default function ProfileOption(
+    {name, iconName, onSelected, viewStyle, textStyle, showArrow=true}:
+    {name: string, iconName: string, onSelected: () => void, viewStyle?: StyleProp<ViewStyle>, textStyle?: StyleProp<TextStyle>, showArrow: boolean}
 ) : React.JSX.Element {
     return (
         <TouchableHighlight
@@ -16,15 +16,15 @@ export function ProfileOption(
                 <View style={{flexDirection:"row", columnGap: 10}}>
                     <MaterialIcons
                         name={iconName}
-                        color={appColors.textPrimary}
+                        color={textStyle == undefined ? appColors.textPrimary : textStyle.color.valueOf()}
                         size={20} />
-                    <Text style={[styles.optionName]}>{name}</Text>
+                    <Text style={[styles.optionName, textStyle]}>{name}</Text>
                 </View>
-                <Ionicons 
+                {showArrow && <Ionicons 
                     name="chevron-forward"
                     size={15}
                     color={appColors.textPrimary}
-                    style={{alignSelf:"center"}} />
+                    style={{alignSelf:"center"}} />}
             </View>
         </TouchableHighlight>
     )

@@ -1,5 +1,5 @@
 import appColors from "@/assets/colors";
-import { Image, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { dateFormatOptions } from "@/utils/DateFormatOptions";
 import { labelStyles } from "@/assets/styles";

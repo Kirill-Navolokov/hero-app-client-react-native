@@ -6,6 +6,7 @@ export const strings = {
     advices: "Поради",
     termsConditions: "Умови використання",
     privacyPolicy: "Політика конфіденційності",
+    clearCache: "Очистити кеш",
     signout: "Вийти",
     scheme: "Схема",
     more: "Більше",
@@ -15,12 +16,13 @@ export const strings = {
     ukrainian: "Українська",
     kacapian: "російська",
     seriouslyQuestion: "Серйозно?",
-    shouldWeAllowToCAcceptChoice: "Хіба схоже, що тут буде російська?",
+    noRussianMessage: "Хіба схоже, що тут буде російська?",
     fixMistake: "Виправити помилку",
     getSweatOrDie: "Потій або помри ©OTOY",
     close: "Закрити",
     search: "Пошук",
     categories: "Категорії",
-    oopsSomethingLost: "Упс, схоже, щось загубилось..."
-
+    oopsSomethingLost: "Упс, схоже, щось загубилось...",
+    cancel: "Скасувати",
+    allCacheWillBeDeletedMessage: "Усі дані, що зберегаються локально буде видалено"
 }

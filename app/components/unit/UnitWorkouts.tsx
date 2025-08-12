@@ -5,16 +5,17 @@ import { TYPES } from "@/ioc/TypesRegistrations";
 import { Workout } from "@/models/Workout";
 import { IUnitsService } from "@/services/Units/IUnitsService";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View, ActivityIndicator, RefreshControl, Modal } from "react-native";
+import { Image, StyleSheet, Text, View, ActivityIndicator, RefreshControl } from "react-native";
 import { Tabs } from "react-native-collapsible-tab-view";
 import unitWorkoutListItem from "./UnitWorkoutItem";
 import { NavigationProp } from "@react-navigation/native";
-import { Separator } from "../Separator";
+import Separator from "../Separator";
 import { Unit } from "@/db/schema";
 
 export default function UnitWorkouts(
     {unit,navigation}:
-    {unit: Unit, navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>}): React.JSX.Element {
+    {unit: Unit, navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>}
+): React.JSX.Element {
     let unitsService = iocContainer.get<IUnitsService>(TYPES.UnitsService);
 
     const [workouts, setWorkouts] = useState(Array<Workout>)

@@ -49,8 +49,9 @@ export default function AdvicesScreen(): React.JSX.Element {
                         renderContent={(section) => {
                             return (
                                 <View>
-                                    {section.advices.map(item => 
+                                    {section.advices.map((item, index) => 
                                         <LinkText
+                                            key={index}
                                             text={item}
                                             textStyle={{
                                                 paddingVertical: 5,

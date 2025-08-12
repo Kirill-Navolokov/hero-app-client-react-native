@@ -15,7 +15,7 @@ import SearchBar from "../components/SearchBar";
 import businessItem from "../components/ BusinessItem";
 import ListLoadingEmptyStateView from "../components/ListLoadingEmptyStateView";
 
-export function BusinessesScreen({navigation}:{navigation: BusinessesNavigationProp}) {
+export default function BusinessesScreen({navigation}:{navigation: BusinessesNavigationProp}) {
     const businessesService = iocContainer.get<IBusinessesService>(TYPES.BusinessesService);
     const [businesses, setBusinesses] = useState(Array<BusinessDto>);
     const [categories, setCategories] = useState(Array<{value:string, label:string}>);

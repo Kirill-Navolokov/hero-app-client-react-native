@@ -1,5 +1,4 @@
 import appColors from "@/assets/colors";
-import { WodDetailsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { NavigationProp } from "@react-navigation/native";
 import { BlurView } from "expo-blur";

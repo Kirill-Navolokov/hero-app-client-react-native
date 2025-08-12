@@ -2,9 +2,10 @@ import appColors from "@/assets/colors";
 import React from "react";
 import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
 
-export function AppBlueButton(
+export default function AppBlueButton(
     {title, onPress, containerStyle, labelStyle}:
-    {title: string, onPress: () => void, containerStyle?: StyleProp<ViewStyle>, labelStyle?: StyleProp<TextStyle>}) : React.JSX.Element {
+    {title: string, onPress: () => void, containerStyle?: StyleProp<ViewStyle>, labelStyle?: StyleProp<TextStyle>}
+) : React.JSX.Element {
     return (
         <TouchableOpacity
             onPress={onPress}

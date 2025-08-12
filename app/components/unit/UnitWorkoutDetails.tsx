@@ -4,7 +4,7 @@ import { labelStyles } from "@/assets/styles";
 import { RouteProp } from "@react-navigation/native";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Separator } from "../Separator";
+import Separator from "../Separator";
 
 export default function UnitWorkoutDetails({route}:{route: RouteProp<any>}): React.JSX.Element {
     return (

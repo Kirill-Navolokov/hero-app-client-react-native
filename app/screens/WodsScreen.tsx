@@ -7,12 +7,12 @@ import { FlatList, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import wodListItem from "../components/WodItem";
 import { WodsNavigationProp } from "@/navigation-types/WodsStackNavigationParams";
-import { Separator } from "../components/Separator";
 import { Wod } from "@/db/schema";
 import { defaultViewStyles } from "@/assets/styles";
 import SearchBar from "../components/SearchBar";
 import ListLoadingEmptyStateView from "../components/ListLoadingEmptyStateView";
 import { strings } from "@/assets/strings";
+import Separator from "../components/Separator";
 
 export default function WodsScreen ({navigation}:{navigation: WodsNavigationProp}) {
     const wodsService = iocContainer.get<IWodService>(TYPES.WodService);

@@ -6,8 +6,8 @@ import appColors from "@/assets/colors";
 import { Image } from "react-native";
 import { tabImages } from "@/assets/images";
 import { strings } from "@/assets/strings";
-import { UnitsScreen } from "./UnitsScreen";
-import { BusinessesScreen } from "./BusinessesScreen";
+import UnitsScreen from "./UnitsScreen";
+import BusinessesScreen from "./BusinessesScreen";
 
 const Tab = createBottomTabNavigator();
 

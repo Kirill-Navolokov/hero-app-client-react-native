@@ -3,9 +3,10 @@ import { labelStyles } from "@/assets/styles";
 import { Unit } from "@/db/schema";
 import { SocialNetworkType } from "@/enums/SocialNetworkType";
 import { SocialNetwork } from "@/models/SocialNetwork";
+import { openUrlModally } from "@/utils/helperFunctions";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, Linking, Text, TouchableHighlight, View } from "react-native";
+import { FlatList, Text, TouchableHighlight, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function UnitAbout({unit}:{unit: Unit}): React.JSX.Element {
@@ -51,7 +52,7 @@ function SocialNetworkItem(item: SocialNetwork): React.JSX.Element {
             style={{
                 flex:1,
                 marginHorizontal:10, marginVertical:5}}
-            onPress={() => {Linking.openURL(item.link)}}>
+            onPress={async() => await openUrlModally(item.link)}>
             <View style={{flex:1, flexDirection:"row", alignItems:"center"}}>
                 <Ionicons
                     size={25}
