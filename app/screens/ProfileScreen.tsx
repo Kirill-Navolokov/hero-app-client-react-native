@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 
 function clearCache() {
     ActionSheetIOS.showActionSheetWithOptions({
-        title: "Усі дані, що зберегаються локально буде видалено",
+        title: strings.allCacheWillBeDeletedMessage,
         options: [strings.cancel, strings.clearCache],
         destructiveButtonIndex: 1,
         cancelButtonIndex: 0,
