@@ -1,5 +1,5 @@
 import appColors from "@/assets/colors";
-import { ScrollView, StyleSheet } from "react-native";
+import { ActionSheetIOS, ScrollView, StyleSheet } from "react-native";
 import ProfileOption from "../components/ProfileOption";
 import { strings } from "@/assets/strings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -8,6 +8,11 @@ import { ProfileNavigationProp } from "@/navigation-types/ProfileNavigationParam
 import React from "react";
 import { openUrlModally } from "@/utils/helperFunctions";
 import { AuthContext } from "../../utils/AuthContextType";
+import { Image } from "expo-image";
+import { iocContainer } from "@/ioc/inversify.config";
+import { ISecureStorage } from "@/services/ISecureStorage";
+import { TYPES } from "@/ioc/TypesRegistrations";
+import { DbConnection } from "@/db/DbConnection";
 
 export default function ProfileScreen(
     {navigation}:{navigation: ProfileNavigationProp}) : React.JSX.Element {
@@ -23,6 +28,8 @@ export default function ProfileScreen(
             navigation.navigate("AdvicesScreen");
         }  else if(type == ProfileOpt.privacyPolicy) {
             await openUrlModally('https://github.com/Kirill-Navolokov/hero-app-client-react-native/blob/main/PRIVACY_POLICY.md');
+        } else if(type == ProfileOpt.cleanCache) {
+            clearCache();
         } else if(type == ProfileOpt.signout) {
             await signOut();
         }
@@ -32,7 +39,7 @@ export default function ProfileScreen(
         <ScrollView
             contentContainerStyle={{
                 paddingTop: 20,
-                paddingBottom: safeArea.bottom,
+                paddingBottom: safeArea.bottom
             }}
             style={{
                 backgroundColor: appColors.backgroundPrimary,
@@ -66,6 +73,17 @@ export default function ProfileScreen(
                 name={strings.privacyPolicy}
                 iconName="privacy-tip"
                 onSelected={() => onOptionSelected(ProfileOpt.privacyPolicy)} />
+            <ProfileOption
+                name={strings.clearCache}
+                iconName="cleaning-services"
+                showArrow={false}
+                onSelected={() => onOptionSelected(ProfileOpt.cleanCache)}
+                viewStyle={{
+                    marginTop: 40
+                }}
+                textStyle={{
+                    color: appColors.alertDanger
+                }}/>
             {/* <ProfileOption
                 name={strings.signout}
                 iconName="logout"
@@ -81,3 +99,25 @@ const styles = StyleSheet.create({
         paddingBottom: 15
     }
 })
+
+function clearCache() {
+    ActionSheetIOS.showActionSheetWithOptions({
+        title: "Усі дані, що зберегаються локально буде видалено",
+        options: [strings.cancel, strings.clearCache],
+        destructiveButtonIndex: 1,
+        cancelButtonIndex: 0,
+        userInterfaceStyle: 'dark',
+    }, async (buttonIndex: number) => {
+        if(buttonIndex == 0)
+            return;
+
+        let secureStorage = iocContainer.get<ISecureStorage>(TYPES.SecureStorage);
+        let dbConnection = iocContainer.get<DbConnection>(TYPES.DbConnection);
+        await Promise.all([
+            Image.clearDiskCache(),
+            secureStorage.clear(),
+            dbConnection.dropData()
+        ]);
+        await secureStorage.verifyCacheLastSyncs();
+    });
+}

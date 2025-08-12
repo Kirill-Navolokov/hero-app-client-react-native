@@ -1,6 +1,7 @@
 import { defaultImages } from "@/assets/images";
+import { Image } from "expo-image";
 import { useState } from "react";
-import { Image, ImageStyle, StyleProp } from "react-native";
+import { ImageStyle, StyleProp } from "react-native";
 
 export default function FallbackImage(
     {imageUrl, defaultImageType, style, defaultImageStyle}:
@@ -8,11 +9,13 @@ export default function FallbackImage(
 ): React.JSX.Element {
     const [errorOnLoading, setErrorOnLoading] = useState(imageUrl == undefined || imageUrl == '');
 
-    return (<Image
-        source={errorOnLoading ? defaultImages[defaultImageType] : {uri: imageUrl}}
-        onError={(data) => {
-            setErrorOnLoading(true);
-        }}
-        style={[style, errorOnLoading ? defaultImageStyle : {}]}/>
+    return (
+        <Image
+            cachePolicy={"disk"}
+            source={errorOnLoading ? defaultImages[defaultImageType] : imageUrl}
+            onError={(data) => {
+                setErrorOnLoading(true);
+            }}
+            style={[style, errorOnLoading ? defaultImageStyle : {}]}/>
     )
 }

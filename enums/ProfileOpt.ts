@@ -6,5 +6,6 @@ export enum ProfileOpt {
     advices,
     termsConditions,
     privacyPolicy,
+    cleanCache,
     signout,
 }

@@ -6,6 +6,7 @@ export const strings = {
     advices: "Поради",
     termsConditions: "Умови використання",
     privacyPolicy: "Політика конфіденційності",
+    clearCache: "Очистити кеш",
     signout: "Вийти",
     scheme: "Схема",
     more: "Більше",
@@ -21,6 +22,7 @@ export const strings = {
     close: "Закрити",
     search: "Пошук",
     categories: "Категорії",
-    oopsSomethingLost: "Упс, схоже, щось загубилось..."
-
+    oopsSomethingLost: "Упс, схоже, щось загубилось...",
+    cancel: "Скасувати",
+    allCacheWillBeDeletedMessage: "Усі дані, що зберегаються локально буде видалено"
 }

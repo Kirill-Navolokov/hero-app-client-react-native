@@ -8,7 +8,6 @@ export default function LinkText(
     {text: string, textStyle?: StyleProp<TextStyle>}
 ): React.JSX.Element {
     const parts = text.split(urlRegex);
-    console.log(parts);
 
     return (
         <Text style={textStyle}>
